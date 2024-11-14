@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\WebBanHang",
+    "\\WebBanHang\\WebBanHang",
+    "\\WebBanHang\\WebBanHang\\Areas",
+    "\\WebBanHang\\WebBanHang\\Areas\\admin",
+    "\\WebBanHang\\WebBanHang\\Areas\\admin\\Controllers",
+    "\\WebBanHang\\WebBanHang\\Areas\\admin\\Views",
+    "\\WebBanHang\\WebBanHang\\Areas\\admin\\Views\\Home",
+    "\\WebBanHang\\WebBanHang\\wwwroot",
+    "\\WebBanHang\\WebBanHang\\wwwroot\\Adminassets",
+    "\\WebBanHang\\WebBanHang\\wwwroot\\Adminassets\\js"
+  ],
+  "SelectedNode": "\\WebBanHang\\WebBanHang\\Program.cs",
+  "PreviewInSolutionExplorer": false
+}

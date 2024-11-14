@@ -1,8 +1,16 @@
-var builder = WebApplication.CreateBuilder(args);
+using AspNetCoreHero.ToastNotification;
+using System.Configuration;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
+var builder = WebApplication.CreateBuilder(args);
+//var stringConnectdb = Configuration.GetConnectionString("dbDiChoSaiGon");
+//services.AddDbContext<dbMarketsContext>(options => options.UseSqlServer(stringConnectdb));
+builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

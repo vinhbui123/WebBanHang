@@ -17,63 +17,79 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebBanHang
 build_property.RootNamespace = WebBanHang
-build_property.ProjectDir = D:\WebBanHang\WebBanHang\
+build_property.ProjectDir = D:\repos\vinhbui123\WebBanHang\WebBanHang\WebBanHang\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\WebBanHang\WebBanHang
+build_property.MSBuildProjectDirectory = D:\repos\vinhbui123\WebBanHang\WebBanHang\WebBanHang
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/WebBanHang/WebBanHang/Areas/admin/Views/Home/Index.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Areas/admin/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Areas/admin/Views/Shared/Error.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Areas/admin/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Areas/admin/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Areas/admin/Views/Shared/_SideNavPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcU2hhcmVkXF9TaWRlTmF2UGFydGlhbFZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Areas/admin/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Areas/admin/Views/_ViewImports.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Areas/admin/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Areas/admin/Views/_ViewStart.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Areas/admin/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Views/Home/Index.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/Home/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Views/Home/Privacy.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Views/Shared/Error.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/Shared/_FooterPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXJQYXJ0aWFsVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/Shared/_HeaderPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IZWFkZXJQYXJ0aWFsVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Views/_ViewImports.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Views/_ViewStart.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/WebBanHang/WebBanHang/Areas/admin/Views/Shared/_Admin_Layout.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Areas/admin/Views/Shared/_Admin_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pbl9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-68wp8go0ae
 
-[D:/WebBanHang/WebBanHang/Views/Shared/_Layout.cshtml]
+[D:/repos/vinhbui123/WebBanHang/WebBanHang/WebBanHang/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ojic8umssh
