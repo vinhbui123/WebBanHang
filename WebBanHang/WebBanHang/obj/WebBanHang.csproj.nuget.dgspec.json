@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lenovo\\Source\\Repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj": {}
+    "D:\\repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lenovo\\Source\\Repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj": {
+    "D:\\repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\Source\\Repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
+        "projectUniqueName": "D:\\repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
         "projectName": "WebBanHang",
-        "projectPath": "C:\\Users\\Lenovo\\Source\\Repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
+        "projectPath": "D:\\repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\Source\\Repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\obj\\",
+        "outputPath": "D:\\repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",

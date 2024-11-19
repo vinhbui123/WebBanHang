@@ -1,11 +1,14 @@
 using AspNetCoreHero.ToastNotification;
+using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using WebBanHang.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-//var stringConnectdb = Configuration.GetConnectionString("dbDiChoSaiGon");
-//services.AddDbContext<dbMarketsContext>(options => options.UseSqlServer(stringConnectdb));
+var stringConnectdb = builder.Configuration.GetConnectionString("dbNet");
+builder.Services.AddDbContext<DbNetContext>(options =>
+	options.UseSqlServer(stringConnectdb));
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 // Add services to the container.
 builder.Services.AddControllersWithViews();

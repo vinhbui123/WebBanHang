@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nmg0UxWkSjs=",
+  "dgSpecHash": "vZGeMawrm0o=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lenovo\\Source\\Repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
+  "projectFilePath": "D:\\repos\\vinhbui123\\WebBanHang\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\aspnetcorehero.toastnotification\\1.1.0\\aspnetcorehero.toastnotification.1.1.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
