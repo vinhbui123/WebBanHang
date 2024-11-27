@@ -27,6 +27,9 @@ namespace WebBanHang.ModelViews
 		[MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu 5 kí tự")]
 		public required string Password { get; set; }
 
-
+		[MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu 5 kí tự")]
+		[Display(Name = "Nhập lại mật khẩu")]
+		[Compare("Password", ErrorMessage = "Vui lòng nhập mật khẩu giống nhau")]
+		public required string PasswordComfirm  { get; set; }
 	}
 }
