@@ -1,10 +1,10 @@
-﻿--Khuyến mãi
+--Khuyến mãi
 CREATE TABLE Promotion (
                 Promotion_id INT NOT NULL,
                 Promotion_name VARCHAR(100) NOT NULL,
-				Promotion_discounts DECIMAL(10, 2) NOT NULL,
-				--Ảnh bìa (nếu có)
-				Thumb VARCHAR(255),
+		Promotion_discounts DECIMAL(10, 2) NOT NULL,
+		--Ảnh bìa (nếu có)
+		Thumb VARCHAR(255),
                 Start_day DATE NOT NULL,
                 End_day DATE NOT NULL,
                 Description VARCHAR(100),
@@ -27,29 +27,29 @@ CREATE TABLE Type_Product (
 
 CREATE TABLE Products (
                 Product_id INT NOT NULL,
-				Type_id INT NOT NULL,
-				Unit_in_stock INT NOT NULL,
-				--Ảnh sản phẩm
-				Thumb VARCHAR(255),  
-				Product_name VARCHAR(100) NOT NULL,
-				--Hot, new, big seller, discounts
-				Special_status VARCHAR(20),
-				Price DECIMAL(10,2) NOT NULL,
-				--Giá sản phẩm sau khi giảm, khuyến mãi
-				Price_discounts DECIMAL(10,2),
-				PRIMARY KEY (Product_id)
+		Type_id INT NOT NULL,
+		Unit_in_stock INT NOT NULL,
+		--Ảnh sản phẩm
+		Thumb VARCHAR(255),  
+		Product_name VARCHAR(100) NOT NULL,
+		--Hot, new, big seller, discounts
+		Special_status VARCHAR(20),
+		Price DECIMAL(10,2) NOT NULL,
+		--Giá sản phẩm sau khi giảm, khuyến mãi
+		Price_discounts DECIMAL(10,2),
+		PRIMARY KEY (Product_id)
 );
 
 CREATE TABLE Product_details (
                 Product_id INT NOT NULL,
-				--Video sản phẩm
-				Videos VARCHAR(255),
-				Color VARCHAR(50),
-				Brand VARCHAR(100),
-				Model VARCHAR(100),
+		--Video sản phẩm
+		Videos VARCHAR(255),
+		Color VARCHAR(50),
+		Brand VARCHAR(100),
+		Model VARCHAR(100),
                 Model_year DATE,
-				Description VARCHAR(MAX),
-				PRIMARY KEY (Product_id)
+		Description VARCHAR(MAX),
+		PRIMARY KEY (Product_id)
 );
 
 
@@ -57,16 +57,16 @@ CREATE TABLE Product_details (
 --Tồn kho
 CREATE TABLE Stocks (
                 Product_id INT NOT NULL,
-				Store_id INT NOT NULL,
+		Store_id INT NOT NULL,
                 Quantity INT NOT NULL,
                 PRIMARY KEY (Product_id)
 );
 
 
 CREATE TABLE Customers (
-				Customer_id INT NOT NULL,
-				Full_name VARCHAR(50),
-				Avatar VARCHAR(255), 
+		Customer_id INT NOT NULL,
+		Full_name VARCHAR(50),
+		Avatar VARCHAR(255), 
                 Phone VARCHAR(15) NOT NULL,
                 Email VARCHAR(100) NOT NULL,
                 Address VARCHAR(200) NOT NULL,
@@ -75,32 +75,38 @@ CREATE TABLE Customers (
 
 CREATE TABLE Accounts (
                 Account_id INT NOT NULL,
-				Acccount_name VARCHAR(100) NOT NULL,	
-				Phone VARCHAR(20) NOT NULL,
-				Email VARCHAR(70) NOT NULL,         
-				Password VARCHAR(50) NOT NULL,
-				--Chuỗi mật khẩu mã hóa
-				Salt nchar(6),
-				Avatar VARCHAR(255),
-				Active BIT,		
+		Role_id INT NOT NULL,
+		Acccount_name VARCHAR(100) NOT NULL,	
+		Phone VARCHAR(20) NOT NULL,
+		Email VARCHAR(70) NOT NULL,         
+		Password VARCHAR(50) NOT NULL,
+		--Chuỗi mật khẩu mã hóa
+		Salt nchar(6),
+		Avatar VARCHAR(255),
+		Active BIT,		
                 PRIMARY KEY (Account_id)
+);
+
+CREATE TABLE Role (
+		Role_id INT NOT NULL;
+		Role_name VARCHAR(50) NOT NULL;
 );
 
 
 CREATE TABLE Orders (
                 Order_id INT NOT NULL,
                 Customer_id INT NOT NULL,
-				Total_price DECIMAL(10, 2) NOT NULL,
-				--Đã thanh toán, chưa thanh toán
+		Total_price DECIMAL(10, 2) NOT NULL,
+		--Đã thanh toán, chưa thanh toán
                 Order_status VARCHAR(20) NOT NULL,
-				Payment_method_id INT NOT NULL,
+		Payment_method_id INT NOT NULL,
                 Order_date DATE NOT NULL,
-				Received_date DATE,
-				--Khách hàng có thể chọn ship hoặc đến cửa hàng lấy
-				Ship BIT NOT NULL,
-				Store_id INT NOT NULL,
-				--Khách hàng note ngày giờ muốn nhận hàng/tự lấy hàng nếu muốn
-				Note VARCHAR(200), 
+		Received_date DATE,
+		--Khách hàng có thể chọn ship hoặc đến cửa hàng lấy
+		Ship BIT NOT NULL,
+		Store_id INT NOT NULL,
+		--Khách hàng note ngày giờ muốn nhận hàng/tự lấy hàng nếu muốn
+		Note VARCHAR(200), 
                 PRIMARY KEY (Order_id)
 );
 
@@ -119,13 +125,13 @@ CREATE TABLE Stores (
  );
 
 CREATE TABLE Ship (
-				Order_id INT NOT NULL,
-				Ship_id INT NOT NULL,
+		Order_id INT NOT NULL,
+		Ship_id INT NOT NULL,
                 Shipper_id INT NOT NULL,
-				ShippingAddresses VARCHAR(200) NOT NULL,
-				--Ngày giao hàng dự kiến
-				Expected_delivery_date DATE NOT NULL, 
-				--Đã giao, đã hủy, chưa giao
+		ShippingAddresses VARCHAR(200) NOT NULL,
+		--Ngày giao hàng dự kiến
+		Expected_delivery_date DATE NOT NULL, 
+		--Đã giao, đã hủy, chưa giao
                 Ship_status VARCHAR(20) NOT NULL,
                 PRIMARY KEY (Ship_id)
 );
@@ -203,6 +209,12 @@ ON UPDATE NO ACTION;
 ALTER TABLE Ship ADD CONSTRAINT orders_ship_fk
 FOREIGN KEY (Shipper_id)
 REFERENCES Orders (Order_id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+ALTER TABLE Role ADD CONSTRAINT role_fk
+FOREIGN KEY (Role_id)
+REFERENCES Accounts (Role_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
