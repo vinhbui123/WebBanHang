@@ -1,4 +1,5 @@
 using AspNetCoreHero.ToastNotification;
+using Microsoft.AspNetCore.Identity;
 using System.Configuration;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -40,4 +41,19 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+//using (var scope = app.Services.CreateScope()
+//    {
+//    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    
+//    var roles = new[] { "Admin", "Member" };
+
+//    foreach ( var role in roles)
+//    {
+//        if (!await roleManager.RoleExistsAsync(role))
+//        {
+//			await roleManager.CreateAsync(new IdentityRole(role));
+
+//		}
+//    }
+//}
 app.Run();
