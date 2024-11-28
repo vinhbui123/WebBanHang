@@ -7,9 +7,9 @@ using System.Text.Unicode;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Thêm DbContext vào dịch vụ
-builder.Services.AddDbContext<MyDbContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//connect to database
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DbContext>(options => options.UseSqlServer(connectionString));
 
 
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
@@ -49,20 +49,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-public class MyDbContext : DbContext
-{
-	public DbSet<MyEntity> MyEntities { get; set; }
-
-	public MyDbContext(DbContextOptions<MyDbContext> options)
-		: base(options)
-	{
-	}
-}
-
-public class MyEntity
-{
-	public int Id { get; set; }
-	public string Name { get; set; }
-}
-
