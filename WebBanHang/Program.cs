@@ -1,12 +1,17 @@
-using AspNetCoreHero.ToastNotification;
+﻿using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
 var builder = WebApplication.CreateBuilder(args);
-//var stringConnectdb = Configuration.GetConnectionString("dbDiChoSaiGon");
-//services.AddDbContext<dbMarketsContext>(options => options.UseSqlServer(stringConnectdb));
+
+// Thêm DbContext vào dịch vụ
+builder.Services.AddDbContext<MyDbContext>(options =>
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -44,3 +49,20 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+public class MyDbContext : DbContext
+{
+	public DbSet<MyEntity> MyEntities { get; set; }
+
+	public MyDbContext(DbContextOptions<MyDbContext> options)
+		: base(options)
+	{
+	}
+}
+
+public class MyEntity
+{
+	public int Id { get; set; }
+	public string Name { get; set; }
+}
+
