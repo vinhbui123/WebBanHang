@@ -90,6 +90,7 @@ CREATE TABLE Accounts (
 CREATE TABLE Role (
 		Role_id INT NOT NULL;
 		Role_name VARCHAR(50) NOT NULL;
+                PRIMARY KEY (Role_id)
 );
 
 
