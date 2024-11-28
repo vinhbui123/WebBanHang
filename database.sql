@@ -88,8 +88,8 @@ CREATE TABLE Accounts (
 );
 
 CREATE TABLE Role (
-		Role_id INT NOT NULL;
-		Role_name VARCHAR(50) NOT NULL;
+		Role_id INT NOT NULL,
+		Role_name VARCHAR(50) NOT NULL,
                 PRIMARY KEY (Role_id)
 );
 
@@ -213,9 +213,8 @@ REFERENCES Orders (Order_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
-ALTER TABLE Role ADD CONSTRAINT role_fk
+ALTER TABLE Accounts ADD CONSTRAINT role_fk
 FOREIGN KEY (Role_id)
-REFERENCES Accounts (Role_id)
+REFERENCES Role (Role_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-
