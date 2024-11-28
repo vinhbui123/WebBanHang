@@ -18,6 +18,7 @@ namespace WebBanHang.Controllers
 			}
 		}
 
+
 		public IActionResult Login(Account account)
 		{
 			if (HttpContext.Session.GetString("Email") == null)
