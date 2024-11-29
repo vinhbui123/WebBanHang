@@ -66,10 +66,19 @@ CREATE TABLE Stocks (
 CREATE TABLE Customers (
 		Customer_id INT NOT NULL,
 		Full_name VARCHAR(50),
-		Avatar VARCHAR(255), 
-                Phone VARCHAR(15) NOT NULL,
-                Email VARCHAR(100) NOT NULL,
-                Address VARCHAR(200) NOT NULL,
+		Birthday DATETIME,
+		Avatar VARCHAR(255),
+		Address VARCHAR(200) NOT NULL, 
+		Email VARCHAR(100) NOT NULL,
+                Phone VARCHAR(15) NOT NULL, 
+                LocationID INT,
+		District INT,
+		Ward INT,
+		CreateDate DATETIME,
+		Password NVARCHAR(50),
+		Salt nchar(8),
+		LastLogin DATETIME,
+		Active BIT,
                 PRIMARY KEY (Customer_id)
 );
 
