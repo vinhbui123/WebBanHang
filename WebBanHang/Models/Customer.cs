@@ -13,7 +13,14 @@ public partial class Customer
 
     public int AccountId { get; set; }
 
-    public string Phone { get; set; } = null!;
+	public string Password { get; set; }
+
+	public bool IsActive { get; set; }
+
+    public DateTime? Created { get; set; }
+
+    public string Salt { get; set; }
+	public string Phone { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 
