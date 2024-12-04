@@ -4,8 +4,11 @@ namespace WebBanHang.ModelViews
 {
 	public class LoginVm
 	{
+		[Key]
 		[MaxLength(100)]
 		[Required(ErrorMessage ="Input Email")]
+		[DataType(DataType.EmailAddress)]
+		[EmailAddress]
 		[Display(Name = "Email")]
 		public required string UserName { get; set; }
 

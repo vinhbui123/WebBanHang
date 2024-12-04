@@ -5,6 +5,7 @@ namespace WebBanHang.ModelViews
 {
 	public class SignUpVM
 	{
+		[Key]
 		public int CustomerId { get; set; }
 		[Display(Name = "Name")]
 		[Required(ErrorMessage = "Input Name")]

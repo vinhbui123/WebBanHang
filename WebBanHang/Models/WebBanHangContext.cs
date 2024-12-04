@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using WebBanHang.ModelViews;
 
 namespace WebBanHang.Models;
 
@@ -371,4 +372,6 @@ public partial class WebBanHangContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+public DbSet<WebBanHang.ModelViews.SignUpVM> SignUpVM { get; set; } = default!;
 }

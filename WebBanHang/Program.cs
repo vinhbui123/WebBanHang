@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using WebBanHang.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //connect to database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<WebBanHangContext>(options => options.UseSqlServer(connectionString));
 
 
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));

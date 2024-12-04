@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@model WebBanHang.ModelViews.SignUpVM
+
+@{
+    ViewData["Title"] = "Signup";
+    Layout = null;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Login</title>
@@ -22,31 +29,47 @@
                     <img src="/image/img-01.png" alt="IMG">
                 </div>
 
-                <form class="login100-form validate-form">
+                <form asp-action="Signup" class="login100-form validate-form">
                     <span class="login100-form-title">
-                        Member Login
+                        Member Sign Up
                     </span>
 
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group validate-input" data-validate="FullName is required">
+                        <input asp-for="FullName" class="input100" type="text" name="name" placeholder="FullName" autofocus="autofocus">
+                        <span class="focus-input100"></span>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
 
                     <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="email" name="email" placeholder="Email" autofocus="autofocus">
+                        <input asp-for="Email" class="input100" type="email" name="email" placeholder="Email">
                         <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                        </span>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="pass" placeholder="Password">
+                    <div class="form-group validate-input" data-validate="PhoneNumber is required">
+                        <input asp-for="PhoneNumber" class="input100" name="pass" placeholder="PhoneNumber">
                         <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-lock" aria-hidden="true"></i>
-                        </span>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
+
+                    <div class="form-group validate-input" data-validate="Password is required">
+                        <input asp-for="Password" class="input100" type="password" name="pass" placeholder="Password">
+                        <span class="focus-input100"></span>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group validate-input" data-validate="Confirm password is required">
+                        <input asp-for="ConfirmPassword" class="input100" type="password" name="pass" placeholder="ConfirmPassword">
+                        <span class="focus-input100"></span>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
 
                     <div class="container-login100-form-btn">
                         <button class="login100-form-btn">
-                            Login
+                            Sign up
                         </button>
                     </div>
 
