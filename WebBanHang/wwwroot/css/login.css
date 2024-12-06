@@ -125,7 +125,7 @@ iframe {
 }
 
 
-[ Utility ]*/
+
 .txt1 {
   font-family: Poppins-Regular;
   font-size: 13px;
@@ -141,7 +141,6 @@ iframe {
 }
 
 
-[ login ]*/
 
 .limiter {
   width: 100%;
@@ -150,7 +149,7 @@ iframe {
 
 .container-login100 {
   width: 100%;  
-  min-height: 90vh;
+  min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -169,6 +168,7 @@ iframe {
 
 .wrap-login100 {
   width: 960px;
+  height: 95vh;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -180,7 +180,7 @@ iframe {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 177px 130px 33px 95px;
+  padding: 130px 130px 33px 95px;
 }
 
 /*------------------------------------------------------------------
@@ -353,7 +353,7 @@ iframe {
 
 @media (max-width: 992px) {
   .wrap-login100 {
-    padding: 177px 90px 33px 85px;
+    padding: 150px 90px 33px 85px;
   }
 
   .login100-pic {

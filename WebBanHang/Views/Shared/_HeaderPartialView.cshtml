@@ -1,5 +1,5 @@
 ﻿<div id="header">
-    <div class="container">
+    <div class="container" style="width:1500px">
         <div id="welcomeLine" class="row">
             <div class="span6">Welcome!<strong> User</strong></div>
             <div class="span6">
@@ -35,8 +35,14 @@
                     <li class=""><a href="normal.html">Delivery</a></li>
                     <li class=""><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li class="">
-                            <a href="@Url.Action("Signup", "Account")" style="padding-right:0">
+                        <a href="@Url.Action("Login", "Account")" style="padding-right:0; height:50px; width:100px; margin-right:-20px">
                             <span class="btn btn-large btn-primary">Login</span>
+                            </a>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Signup", "Account")" style="padding-right:0; height:50px; width:120px;margin-right:-20px">
+                            <span class="btn btn-large btn-primary">Sign Up</span>
                         </a>
                     </li>
                 </ul>

@@ -117,7 +117,25 @@ namespace WebBanHang.Controllers
 			}
 		}
 
-		[HttpPost]
+		[HttpGet]
+        [AllowAnonymous]
+        [Microsoft.AspNetCore.Mvc.Route("Login.cshtml", Name = "Login")]
+        public IActionResult Login(string returnUrl = null)
+        {
+            var Idtk = HttpContext.Session.GetString("CustomerId");
+            Console.WriteLine($"CustomerId in session: {Idtk}"); // This will print the value to the console.
+
+			if (Idtk != null)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
+            return View();
+        }
+
+
+
+        [HttpPost]
 		[AllowAnonymous]
 		[Microsoft.AspNetCore.Mvc.Route("Login.cshtml", Name = "Login")]
 		public async Task<IActionResult> Login(LoginVm customer, string returnUrl = null)
