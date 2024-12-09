@@ -77,38 +77,16 @@ ul, li {
 
 input {
 	outline: none;
-	border: none;
 }
 
 textarea {
-  outline: none;
-  border: none;
+	outline: none;
+	border-color: blue;
 }
 
 textarea:focus, input:focus {
-  border-color: transparent !important;
+  border-color: lightblue !important;
 }
-
-input:focus::-webkit-input-placeholder { color:transparent; }
-input:focus:-moz-placeholder { color:transparent; }
-input:focus::-moz-placeholder { color:transparent; }
-input:focus:-ms-input-placeholder { color:transparent; }
-
-textarea:focus::-webkit-input-placeholder { color:transparent; }
-textarea:focus:-moz-placeholder { color:transparent; }
-textarea:focus::-moz-placeholder { color:transparent; }
-textarea:focus:-ms-input-placeholder { color:transparent; }
-
-input::-webkit-input-placeholder { color: #999999; }
-input:-moz-placeholder { color: #999999; }
-input::-moz-placeholder { color: #999999; }
-input:-ms-input-placeholder { color: #999999; }
-
-textarea::-webkit-input-placeholder { color: #999999; }
-textarea:-moz-placeholder { color: #999999; }
-textarea::-moz-placeholder { color: #999999; }
-textarea:-ms-input-placeholder { color: #999999; }
-
 
 button {
 	outline: none !important;
@@ -222,17 +200,18 @@ iframe {
 }
 
 .input100 {
-  font-family: Poppins-Medium;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #666666;
+	font-family: Arial;
+	font-size: 15px;
+	line-height: 1.5;
+/*	border-color:blue;*/
+	transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 
-  display: block;
-  width: 100%;
-  background: #e6e6e6;
-  height: 50px;
-  border-radius: 25px;
-  padding: 0 30px 0 68px;
+	display: block;
+	width: 100%;
+	background: #e6e6e6;
+	height: 50px;
+	border-radius: 25px;
+	padding: 0 30px 0 68px;
 }
 
 

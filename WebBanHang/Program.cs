@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
@@ -19,6 +20,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 builder.Services.AddSession();
+// using Microsoft.AspNetCore.Authentication.Cookies;
+// using Microsoft.AspNetCore.Http;
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+        options =>
+        {
+            options.LoginPath = "/Login.html";
+            options.AccessDeniedPath = new PathString("/");
+        });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -13,7 +13,7 @@ public partial class Customer
 
     public int AccountId { get; set; }
 
-	public string Password { get; set; }
+	public string? Password { get; set; }
 
 	public bool IsActive { get; set; }
 

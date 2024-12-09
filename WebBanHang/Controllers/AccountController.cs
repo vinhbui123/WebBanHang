@@ -10,6 +10,7 @@ using WebBanHang.Models;
 using WebBanHang.ModelViews;
 namespace WebBanHang.Controllers
 {
+	[Authorize]
 	public class AccountController : Controller
 	{
 
@@ -50,6 +51,16 @@ namespace WebBanHang.Controllers
 				return Json(data: true);
 			}
 		}
+        [Microsoft.AspNetCore.Mvc.Route("My_account.cshtml", Name = "My account")]
+		public IActionResult MyAccount() {
+        var Idtk = HttpContext.Session.GetString("CustomerId");
+			if (Idtk != null)
+			{
+				return RedirectToAction("Index", "Home");
+    }
+
+            return View();
+}
 
 		public IActionResult Index()
 		{
@@ -58,7 +69,7 @@ namespace WebBanHang.Controllers
 
 		[HttpGet]
 		[AllowAnonymous]
-		[Microsoft.AspNetCore.Mvc.Route("Signup.cshtml", Name = "Signup")]
+		[Microsoft.AspNetCore.Mvc.Route("Signup.html", Name = "Signup")]
 		public IActionResult Signup()
 		{
 			return View();
@@ -66,65 +77,58 @@ namespace WebBanHang.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		[Microsoft.AspNetCore.Mvc.Route("Signup.cshtml", Name = "Sign up")]
-		public async Task<IActionResult> Signup(SignUpVM customer)
+		[Microsoft.AspNetCore.Mvc.Route("Signup.html", Name = "Sign up")]
+		public async Task<IActionResult> Signup(SignUpVM account)
 		{
 			try
 			{
 				if (ModelState.IsValid)
 				{
 					String RandomKey = Utilities.GetRandomKey();
-					Customer kh = new Customer
-					{
-						FullName = customer.FullName,
-						Phone = customer.PhoneNumber.Trim().ToLower(),
-						Email = customer.Email.Trim().ToLower(),
-						Password = customer.Password.Trim().ToLower(),
-						IsActive = true,
-						Salt = RandomKey.Trim(),
-						Created = DateTime.Now
-					};
-					try
-					{
-						_db.Add(kh);
-						await _db.SaveChangesAsync();
-						//save Customer id
-						HttpContext.Session.SetString("CustomerId", kh.CustomerId.ToString());
-						var tk_id = HttpContext.Session.GetString("CustomerId");
-						//identity
-						var claim = new List<Claim>
-						{
-							new Claim(ClaimTypes.Name, kh.FullName),
-							new Claim("CustomerId", kh.CustomerId.ToString())
-						};
-						ClaimsIdentity claimsIdentity = new ClaimsIdentity(claim, "login");
-						ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-						await HttpContext.SignInAsync(claimsPrincipal);
-						return RedirectToAction("Index", "Accounts");
-					}
-					catch
-					{
-						return RedirectToAction("Signup", "Accounts");
-					}
-				}
-				else
+                    // Simulate adding a customer without interacting with the database
+                    try
+                    {
+                        Customer kh = new Customer
+                        {
+                            FullName = account.FullName,
+                            Phone = account.PhoneNumber.Trim().ToLower(),
+                            Email = account.Email.Trim().ToLower(),
+                            Password = account.Password.Trim().ToLower(),
+                            IsActive = true,
+                            Salt = Utilities.GetRandomKey(),
+                            Created = DateTime.Now
+                        };
+
+                        _db.Add(kh);
+                        await _db.SaveChangesAsync();
+
+                        // Simulate saving customer session
+                        HttpContext.Session.SetString("CustomerId", kh.CustomerId.ToString());
+                        return RedirectToAction("Index", "Home");
+                    }
+                    catch (Exception ex)
+                    {
+						ViewBag.ErrorMessage = "error";
+                        return RedirectToAction("Signup", "Account");
+                    }
+
+                }
+                else
 				{
-					return View(customer);
-				}
+                    return View(account);
+                }
 			}
 			catch { 
-				return View(customer);
+				return View(account);
 			}
 		}
 
 		[HttpGet]
         [AllowAnonymous]
-        [Microsoft.AspNetCore.Mvc.Route("Login.cshtml", Name = "Login")]
-        public IActionResult Login(string returnUrl = null)
+        [Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
+        public IActionResult Login(string? returnUrl = null)
         {
             var Idtk = HttpContext.Session.GetString("CustomerId");
-            Console.WriteLine($"CustomerId in session: {Idtk}"); // This will print the value to the console.
-
 			if (Idtk != null)
 			{
 				return RedirectToAction("Index", "Home");
@@ -137,8 +141,8 @@ namespace WebBanHang.Controllers
 
         [HttpPost]
 		[AllowAnonymous]
-		[Microsoft.AspNetCore.Mvc.Route("Login.cshtml", Name = "Login")]
-		public async Task<IActionResult> Login(LoginVm customer, string returnUrl = null)
+		[Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
+		public async Task<IActionResult> Login(LoginVm customer, string? returnUrl = null)
 		{
 			try
 			{

@@ -5,10 +5,20 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+</style>
+
 <head>
-    <title>Sign up</title>
+    <title>Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/image/icons/favicon.ico" />
@@ -20,79 +30,58 @@
     <link rel="stylesheet" type="text/css" href="/css/loginUtil.css">
     <link rel="stylesheet" type="text/css" href="/css/login.css">
 </head>
-<body>
 
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
-                <div class="login100-pic js-tilt" data-tilt>
-                    <img src="/image/img-01.png" alt="IMG">
-                </div>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
 
-                <form asp-action="Signup" class="login100-form validate-form">
-                    <span class="login100-form-title">
-                        Member Sign Up
-                    </span>
-
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    <div class="form-group validate-input" data-validate="FullName is required">
-                        <input asp-for="FullName" class="input100" type="text" name="name" placeholder="FullName" autofocus="autofocus">
-                        <span class="focus-input100"></span>
-                        <span asp-validation-for="FullName" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                        <input asp-for="Email" class="input100" type="email" name="email" placeholder="Email">
-                        <span class="focus-input100"></span>
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group validate-input" data-validate="PhoneNumber is required">
-                        <input asp-for="PhoneNumber" class="input100" name="pass" placeholder="PhoneNumber">
-                        <span class="focus-input100"></span>
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group validate-input" data-validate="Password is required">
-                        <input asp-for="Password" class="input100" type="password" name="pass" placeholder="Password">
-                        <span class="focus-input100"></span>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group validate-input" data-validate="Confirm password is required">
-                        <input asp-for="ConfirmPassword" class="input100" type="password" name="pass" placeholder="ConfirmPassword">
-                        <span class="focus-input100"></span>
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-
-
-                    <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
-                            Sign up
-                        </button>
-                    </div>
-
-                    <div class="text-center p-t-136" style="margin: -20px">
-                        <a class="txt2" href="@Url.Action("Login", "Account")">
-                            Login your account ?
-                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </form>
+            <div class="login100-pic js-tilt" data-tilt>
+                <img src="/image/img-01.png" alt="IMG">
             </div>
+
+        <form asp-action="Signup">
+
+                <span class="login100-form-title">
+                    Member Sign Up
+                </span>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+            <div class="form-group">
+                    <input asp-for="FullName" class="form-control input100" placeholder="FullName" autofocus="autofocus" style="transition:none" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                    <input asp-for="Email" class="form-control input100 validate-input" placeholder="Email" type="email" />
+            </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+           
+                <div class="form-group">
+                    <input asp-for="PhoneNumber" class="form-control input100 validate-input" placeholder="PhoneNumber" type="number"/>
+            </div>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            
+                <div class="form-group">
+                    <input asp-for="Password" class="form-control input100 validate-input" placeholder="Password" type="password" />
+            </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+           
+                <div class="form-group">
+                    <input asp-for="ConfirmPassword" class="form-control input100 validate-input" placeholder="ConfirmPassword" type="password" />
+            </div>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
         </div>
     </div>
+</div>
 
-
-
-
-    <script src="/jquery/jquery-3.2.1.min.js"></script>
-    <script src="/bootstrap/js/popper.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/js/loginselect2.min.js"></script>
-    <script src="/js/loginTilt.jquery.min.js"></script>
-    <script src="/js/login.js"></script>
-
-</body>
-</html>
+<script src="/jquery/jquery-3.2.1.min.js"></script>
+<script src="/bootstrap/js/popper.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/loginselect2.min.js"></script>
+<script src="/js/loginTilt.jquery.min.js"></script>
+<script src="/js/login.js"></script>
