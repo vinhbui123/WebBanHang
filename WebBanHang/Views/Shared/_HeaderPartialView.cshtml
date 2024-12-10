@@ -1,53 +1,4 @@
-﻿<style>
-    .dropbtn {
-        background-color: #04AA6D;
-        color: white;
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        right: 0; /* Align to the right edge */
-        background-color: #f1f1f1;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-    }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-        }
-
-            .dropdown-content a:hover {
-                background-color: #ddd;
-            }
-
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    .dropdown:hover .dropbtn {
-        background-color: #3e8e41;
-    }
-
-    .nav .btn {
-        margin: 5px;
-    }
-</style>
-
+﻿
 <div id="header">
     <div class="container" style="width:1500px">
         <div id="welcomeLine" class="row">
@@ -88,16 +39,22 @@
                     <li><a href="special_offer.html">Special Offer</a></li>
                     <li><a href="normal.html">Delivery</a></li>
                     <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li>
-                        <div class="dropdown">
-                            <button class="dropbtn">Dropdown</button>
-                            <div class="dropdown-content">
-                                <a href="@Url.Action("Login", "Account")" class="btn btn-large btn-primary">Login</a>
-                                <a href="@Url.Action("Signup", "Account")" class="btn btn-large btn-primary">Sign Up</a>
-                            </div>
-                        </div>
-                    </li>
                 </ul>
+                <div class="dropdown">
+                    <a class="dropbtn"><img src="/image/account.png" alt="Alternate Text" /></a>
+                    <div class="dropdown-content">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Information", "Account")" class="btn-large">My Account</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Information", "Account")" class="btn-large">My Account</a>
+                            <a href="@Url.Action("Login", "Account")" class="btn-large">Login</a>
+                            <a href="@Url.Action("Signup", "Account")" class="btn-large">Sign Up</a>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>

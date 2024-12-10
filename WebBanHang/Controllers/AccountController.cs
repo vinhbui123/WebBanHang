@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,22 +12,22 @@ using WebBanHang.ModelViews;
 namespace WebBanHang.Controllers
 {
     [Authorize]
-	public class AccountController : Controller
-	{
+    public class AccountController : Controller
+    {
 
-		private readonly WebBanHangContext _db;
+        private readonly WebBanHangContext _db;
 
-		public AccountController(WebBanHangContext db)
-		{
-			_db = db;
-		}
+        public AccountController(WebBanHangContext db)
+        {
+            _db = db;
+        }
 
         public IActionResult ValidateName(string fullName)
-		{
-			try
-			{
+        {
+            try
+            {
                 var Name = _db.Customers.SingleOrDefault(x => x.FullName.ToLower() == fullName.ToLower());
-				if (Name != null)
+                if (Name != null)
                     return Json(data: "Name" + Name + "was used : ");
 
                 return Json(data: "Name : " + Name + " can use");
@@ -60,47 +61,47 @@ namespace WebBanHang.Controllers
 
 
         [HttpGet]
-		[AllowAnonymous]
-		public IActionResult ValidateEmail(string Email)
-		{
-			try
-			{
-				var khachhang = _db.Customers.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
-				if (khachhang == null)
-					return Json(data: "Email : " + Email + " đã được sử dụng");
-				return Json(data: true);
-			}
-			catch
-			{
-				return Json(data: true);
-			}
-		}
-		[Microsoft.AspNetCore.Mvc.Route("My_account.cshtml", Name = "My account")]
-		public IActionResult MyAccount()
-		{
-			var Idtk = HttpContext.Session.GetString("CustomerId");
-			if (Idtk != null)
-			{
+        [AllowAnonymous]
+        public IActionResult ValidateEmail(string Email)
+        {
+            try
+            {
+                var khachhang = _db.Customers.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
+                if (khachhang == null)
+                    return Json(data: "Email : " + Email + " đã được sử dụng");
+                return Json(data: true);
+            }
+            catch
+            {
+                return Json(data: true);
+            }
+        }
+        [Microsoft.AspNetCore.Mvc.Route("My_account.cshtml", Name = "My account")]
+        public IActionResult MyAccount()
+        {
+            var Idtk = HttpContext.Session.GetString("CustomerId");
+            if (Idtk != null)
+            {
                 var khachhang = _db.Customers.AsNoTracking().SingleOrDefault(x => x.CustomerId == Convert.ToInt32(Idtk));
-				if (khachhang != null)
-					return View();
-			}
+                if (khachhang != null)
+                    return View();
+            }
 
-			return RedirectToAction("Login");
-		}
+            return RedirectToAction("Login");
+        }
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-		[HttpGet]
-		[AllowAnonymous]
-		[Microsoft.AspNetCore.Mvc.Route("Signup.html", Name = "Signup")]
-		public IActionResult Signup()
-		{
-			return View();
-		}
+        [HttpGet]
+        [AllowAnonymous]
+        [Microsoft.AspNetCore.Mvc.Route("Signup.html", Name = "Signup")]
+        public IActionResult Signup()
+        {
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -112,7 +113,7 @@ namespace WebBanHang.Controllers
                 if (ModelState.IsValid)
                 {
                     // Check if a customer with the same email or name already exists
-					//AnyAsync stop when find matching
+                    //AnyAsync stop when find matching
                     bool customerExists = await _db.Customers.AnyAsync(c =>
                         c.Email.ToLower() == account.Email.Trim().ToLower() ||
                         c.FullName.ToLower() == account.FullName.Trim().ToLower());
@@ -126,14 +127,15 @@ namespace WebBanHang.Controllers
                     // Create a new customer if no duplicate is found
                     try
                     {
+                        String salt = Utilities.GetRandomKey();
                         Customer kh = new Customer
                         {
                             FullName = account.FullName,
                             Phone = account.PhoneNumber.Trim().ToLower(),
                             Email = account.Email.Trim().ToLower(),
-                            Password = account.Password.Trim().ToLower(),
+                            Password = (account.Password.Trim().ToLower() + salt.Trim()).ToMD5(),
                             Active = true,
-                            Salt = Utilities.GetRandomKey(),
+                            Salt = salt,
                             CreateDate = DateTime.Now
                         };
 
@@ -142,15 +144,15 @@ namespace WebBanHang.Controllers
 
                         // Save customer session
                         HttpContext.Session.SetString("CustomerId", kh.CustomerId.ToString());
-                        return RedirectToAction("My account", "Home");
+                        return RedirectToAction("Index", "Home");
+                        //return RedirectToAction("My account", "Home");
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        ViewBag.ErrorMessage = "An error occurred while creating the account. Please try again.";
                         return View(account);
                     }
                 }
-                    return View(account);   
+                return View(account);
             }
             catch
             {
@@ -160,70 +162,101 @@ namespace WebBanHang.Controllers
 
 
         [HttpGet]
-		[AllowAnonymous]
-		[Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
-		public IActionResult Login(string? returnUrl = null)
-		{
-			var Idtk = HttpContext.Session.GetString("CustomerId");
-			if (Idtk != null)
-			{
-				return RedirectToAction("Index", "Home");
-			}
+        [AllowAnonymous]
+        [Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
+        public IActionResult Login(string? returnUrl = null)
+        {
+            var Idtk = HttpContext.Session.GetString("CustomerId");
+            if (Idtk != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-			return View();
-		}
+            return View();
+        }
 
 
 
-		[HttpPost]
-		[AllowAnonymous]
-		[Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
-		public async Task<IActionResult> Login(LoginVm customer, string? returnUrl = null)
-		{
-			try
-			{
+        [HttpPost]
+        [AllowAnonymous]
+        [Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
+        public async Task<IActionResult> Login(LoginVm customer, string? returnUrl = null)
+        {
+            try
+            {
                 if (customer.UserName.Equals("admin@gmail.com") && customer.Password.Equals("123"))
                 {
+                    // Admin login - redirect to Admin dashboard
+                    var adminClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, "Admin"),
+                new Claim(ClaimTypes.Role, "Admin")
+            };
+
+                    var adminIdentity = new ClaimsIdentity(adminClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var adminPrincipal = new ClaimsPrincipal(adminIdentity);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, adminPrincipal);
+
                     return Redirect("/Admin");
                 }
 
-
                 if (ModelState.IsValid)
-				{
-					bool isEmail = Utilities.IsValidEmail(customer.UserName);
-					if (!isEmail) return View(customer);
-					var kh = _db.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == customer.UserName);
-					if (kh == null) return RedirectToAction("Signup");
+                {
+                    bool isEmail = Utilities.IsValidEmail(customer.UserName);
+                    if (!isEmail) return View(customer);
 
-					//check password is correct if not return to view
-					string pass = (customer.Password + kh.Salt.Trim().ToMD5());
-					
-					if (customer.Password != pass)
-					{
-						ViewBag.Error = "sai mk";
-						return View(customer);
-					}
-					//check account is disable
-					//if (kh.Active == false) return RedirectToAction("ThongBao", "Accounts");
+                    var kh = _db.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == customer.UserName);
+                    if (kh == null) return RedirectToAction("Signup");
 
-					//save session CustomerId
-					HttpContext.Session.SetString("CustomerId", kh.CustomerId.ToString());
-					var tkID = HttpContext.Session.GetString("CustomerId");
-					//Identity
-					var claim = new List<Claim>
-						{
-							new Claim(ClaimTypes.Name, kh.FullName),
-							new Claim("CustomerId", kh.CustomerId.ToString())
-						};
+                    // Check password
+                    string pass = (customer.Password + kh.Salt.Trim()).ToMD5();
+                    bool passMatch = await _db.Customers.AnyAsync(c => c.Password.ToLower() == pass);
 
-				}
-			}
-			catch
-			{
-				return RedirectToAction("Signup", "Account");
-			}
-			return RedirectToAction("index", "Home");
-		}
+                    if (!passMatch)
+                    {
+                        ModelState.AddModelError("", "Password is incorrect.");
+                        return View(customer);
+                    }
 
-	}
+                    // Check if account is disabled
+                    // Uncomment if needed:
+                    // if (!kh.Active) return RedirectToAction("ThongBao", "Accounts");
+
+                    // Save session data
+                    HttpContext.Session.SetString("CustomerId", kh.CustomerId.ToString());
+
+                    // Create identity and issue authentication cookie
+                    var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, kh.FullName),
+                new Claim("CustomerId", kh.CustomerId.ToString())
+            };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+
+                    // Redirect to the return URL if available, otherwise redirect to home
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    // If model state is invalid
+                    return View(customer);
+                }
+            }
+            catch
+            {
+                // Handle errors and redirect to signup
+                return RedirectToAction("Signup", "Account");
+            }
+        }
+    }
 }

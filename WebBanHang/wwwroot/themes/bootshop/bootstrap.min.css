@@ -126,7 +126,6 @@ textarea {
 
 body {
     margin: 0;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
     line-height: 20px;
     color: #333;
@@ -3878,7 +3877,7 @@ button.btn, input[type="submit"].btn {
 
     .navbar .nav.pull-right {
         float: right;
-        margin-right: 0
+        margin-right: 80px;
     }
 
     .navbar .nav > li {
