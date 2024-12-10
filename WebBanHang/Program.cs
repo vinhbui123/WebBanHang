@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using WebBanHang.Models;
+using WebBanHang.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 

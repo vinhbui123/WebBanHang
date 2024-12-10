@@ -28,24 +28,24 @@
                     <img src="/image/img-01.png" alt="IMG">
                 </div>
 
-                <form asp-action="Signup">
+                <form asp-action="Login">
                     <span class="login100-form-title">
-                        Member Sign Up
+                        Member Login
                     </span>
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group">
-                        <input asp-for="UserName" class="form-control input100" placeholder="Email" style="transition:none" autofocus="autofocus" />
+                        <input asp-for="@Model.UserName" class="form-control input100" placeholder="Email" style="transition:none" autofocus="autofocus" />
                         <span class="focus-input100"></span>
                     </div>
-                    <span asp-validation-for="UserName" class="text-danger"></span>
+                    <span asp-validation-for="@Model.UserName" class="text-danger"></span>
 
                     <div class="form-group">
-                        <input asp-for="Password" class="form-control input100" placeholder="Password" style="transition:none" />
+                        <input asp-for="@Model.Password" class="form-control input100" placeholder="Password" style="transition:none" />
                         <span class="focus-input100"></span>
                     </div>
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
 
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />

@@ -7,8 +7,6 @@ public partial class Account
 {
     public int AccountId { get; set; }
 
-    public int RoleId { get; set; }
-
     public string AcccountName { get; set; } = null!;
 
     public string Phone { get; set; } = null!;
@@ -22,6 +20,4 @@ public partial class Account
     public string? Avatar { get; set; }
 
     public bool? Active { get; set; }
-
-    public virtual Role Role { get; set; } = null!;
 }

@@ -9,7 +9,8 @@ namespace WebBanHang.ModelViews
 		public int CustomerId { get; set; }
 		[Display(Name = "Name")]
 		[Required(ErrorMessage = "Input Name")]
-		public string FullName { get; set; }
+        [Remote(action: "ValidateName", controller: "Account")]
+        public string FullName { get; set; }
 
 		[Required(ErrorMessage = "Input Email")]
 		[MaxLength(150)]
