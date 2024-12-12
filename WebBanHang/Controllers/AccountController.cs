@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.ComponentModel;
+using System.Drawing.Drawing2D;
+using System.Numerics;
 using System.Security.Claims;
 using WebBanHang.Extension;
 using WebBanHang.Helpper;
+using WebBanHang.Migrations;
 using WebBanHang.Model;
 using WebBanHang.ModelViews;
 namespace WebBanHang.Controllers
@@ -76,16 +81,27 @@ namespace WebBanHang.Controllers
                 return Json(data: true);
             }
         }
+
+
+        [HttpPost]
         [Microsoft.AspNetCore.Mvc.Route("My_account.cshtml", Name = "My account")]
-        public IActionResult MyAccount()
+        public async Task<IActionResult> MyAccount()
         {
-            var Idtk = HttpContext.Session.GetString("CustomerId");
-            if (Idtk != null)
+            try
             {
-                var khachhang = _db.Customers.AsNoTracking().SingleOrDefault(x => x.CustomerId == Convert.ToInt32(Idtk));
-                if (khachhang != null)
-                    return View();
+                var Idtk = HttpContext.Session.GetString("CustomerId");
+                if (Idtk != null)
+                {
+                    //Retrieve a customer record from the Customers table based on the CustomerId and Idtk variable likely contains the ID of the customer you want to find.
+                    var khachhang = _db.Customers.AsNoTracking().SingleOrDefault(x => x.CustomerId == Convert.ToInt32(Idtk));
+                    //It’s often shorter and easier to write for simple queries than linq.
+                    if (khachhang != null)
+                        return View();
+                }
+
+
             }
+            catch { }
 
             return RedirectToAction("Login");
         }
@@ -107,6 +123,9 @@ namespace WebBanHang.Controllers
         [AllowAnonymous]
         [Microsoft.AspNetCore.Mvc.Route("Signup.html", Name = "Sign up")]
         public async Task<IActionResult> Signup(SignUpVM account)
+            //Asyn :Indicates that the method supports asynchronous operations.
+            //Improves performance by freeing up the thread while waiting for I/O-bound operations
+            //(like database queries, file I/O, or API calls) to complete.
         {
             try
             {
@@ -132,6 +151,8 @@ namespace WebBanHang.Controllers
                         {
                             FullName = account.FullName,
                             Phone = account.PhoneNumber.Trim().ToLower(),
+                            Address = account.Address.Trim().ToLower(),
+                            Birthday = account.Birthday,
                             Email = account.Email.Trim().ToLower(),
                             Password = (account.Password.Trim().ToLower() + salt.Trim()).ToMD5(),
                             Active = true,
@@ -166,12 +187,6 @@ namespace WebBanHang.Controllers
         [Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
         public IActionResult Login(string? returnUrl = null)
         {
-            var Idtk = HttpContext.Session.GetString("CustomerId");
-            if (Idtk != null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             return View();
         }
 
@@ -186,11 +201,12 @@ namespace WebBanHang.Controllers
             {
                 if (customer.UserName.Equals("admin@gmail.com") && customer.Password.Equals("123"))
                 {
+                    ModelState.AddModelError("", "An error occurred during logout:");
                     // Admin login - redirect to Admin dashboard
                     var adminClaims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, "Admin"),
-                new Claim(ClaimTypes.Role, "Admin")
+                    new Claim(ClaimTypes.Name, "Admin"),
+                    new Claim(ClaimTypes.Role, "Admin")
             };
 
                     var adminIdentity = new ClaimsIdentity(adminClaims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -219,6 +235,7 @@ namespace WebBanHang.Controllers
                         return View(customer);
                     }
 
+                    ModelState.AddModelError("", "Login success");
                     // Check if account is disabled
                     // Uncomment if needed:
                     // if (!kh.Active) return RedirectToAction("ThongBao", "Accounts");
@@ -229,8 +246,8 @@ namespace WebBanHang.Controllers
                     // Create identity and issue authentication cookie
                     var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, kh.FullName),
-                new Claim("CustomerId", kh.CustomerId.ToString())
+                    new Claim(ClaimTypes.Name, kh.FullName),
+                    new Claim("CustomerId", kh.CustomerId.ToString())
             };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -258,5 +275,29 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Signup", "Account");
             }
         }
+
+        [HttpPost]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                // Sign out the user from the authentication scheme
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Remove the "CustomerId" from the session
+                HttpContext.Session.Remove("CustomerId");
+
+                // Redirect to the "Home" page
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur during sign-out
+                ModelState.AddModelError("", "An error occurred during logout:");
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
     }
 }

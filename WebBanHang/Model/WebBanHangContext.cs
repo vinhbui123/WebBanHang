@@ -51,9 +51,6 @@ public partial class WebBanHangContext : DbContext
             entity.Property(e => e.Address)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.Avatar)
-                .HasMaxLength(255)
-                .IsUnicode(false);
             entity.Property(e => e.Birthday).HasColumnType("datetime");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Email)
@@ -64,7 +61,6 @@ public partial class WebBanHangContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Full_name");
             entity.Property(e => e.LastLogin).HasColumnType("datetime");
-            entity.Property(e => e.LocationId).HasColumnName("LocationID");
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Phone)
                 .HasMaxLength(15)

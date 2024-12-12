@@ -45,15 +45,17 @@
                     <div class="dropdown-content">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a href="@Url.Action("Information", "Account")" class="btn-large">My Account</a>
+                            <form method="post" action="@Url.Action("Logout", "Account")">
+                                <button type="submit" class="btn-large">Log out</button>
+                            </form>
                         }
                         else
                         {
-                            <a href="@Url.Action("Information", "Account")" class="btn-large">My Account</a>
                             <a href="@Url.Action("Login", "Account")" class="btn-large">Login</a>
                             <a href="@Url.Action("Signup", "Account")" class="btn-large">Sign Up</a>
                         }
-                    </div>
+
+                        </div>
                 </div>
             </div>
         </div>

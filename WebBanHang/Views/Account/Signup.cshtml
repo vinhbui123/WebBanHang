@@ -15,6 +15,15 @@
     input[type="number"] {
         -moz-appearance: textfield;
     }
+
+    .text-danger{
+        position: absolute;
+        display: flex;
+        z-index: 10;
+        font-size: 10px;
+        margin-right:-50px;
+    }
+    
 </style>
 
 <head>
@@ -40,37 +49,47 @@
             </div>
 
             <form asp-action="Signup">
-                <div asp-validation-summary="ModelOnly" class="text-danger" style="position:absolute; display:flex; margin-top:-40px"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger" style="position:absolute; display:flex; margin-top:-70px"></div>
 
                 <span class="login100-form-title">
                     Member Sign Up
                 </span>
 
 
+                <span asp-validation-for="FullName" class="text-danger"></span>
                 <div class="form-group">
                     <input asp-for="FullName" class="form-control input100" placeholder="FullName" autofocus="autofocus" style="transition:none" />
-                    <span asp-validation-for="FullName" class="text-danger"></span>
                 </div>
 
+                <span asp-validation-for="Email" class="text-danger"></span>
                 <div class="form-group">
                     <input asp-for="Email" class="form-control input100 validate-input" placeholder="Email" type="email" />
                 </div>
-                <span asp-validation-for="Email" class="text-danger"></span>
 
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 <div class="form-group">
                     <input asp-for="PhoneNumber" class="form-control input100 validate-input" placeholder="PhoneNumber" type="number" />
                 </div>
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
 
+                <span asp-validation-for="Address" class="text-danger"></span>
+                <div class="form-group">
+                    <input asp-for="Address" class="form-control input100" placeholder="Address" data-val="true" data-val-required="The Address field is required." />
+                </div>
+
+                <span asp-validation-for="Birthday" class="text-danger"></span>
+                <div class="form-group">
+                    <input asp-for="Birthday" class="form-control input100" type="date" placeholder="Birthday" data-val="true" data-val-required="The Birthday field is required." />
+                </div>
+
+                <span asp-validation-for="Password" class="text-danger"></span>
                 <div class="form-group">
                     <input asp-for="Password" class="form-control input100 validate-input" placeholder="Password" type="password" />
                 </div>
-                <span asp-validation-for="Password" class="text-danger"></span>
 
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 <div class="form-group">
                     <input asp-for="ConfirmPassword" class="form-control input100 validate-input" placeholder="ConfirmPassword" type="password" />
                 </div>
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 
 
                 <div class="form-group container-login100-form-btn">

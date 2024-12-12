@@ -11,19 +11,11 @@ public partial class Customer
 
     public DateTime? Birthday { get; set; }
 
-    public string? Avatar { get; set; }
-
     public string? Address { get; set; }
 
     public string Email { get; set; } = null!;
 
     public string Phone { get; set; } = null!;
-
-    public int? LocationId { get; set; }
-
-    public int? District { get; set; }
-
-    public int? Ward { get; set; }
 
     public DateTime? CreateDate { get; set; }
 
