@@ -165,7 +165,7 @@ namespace WebBanHang.Controllers
 
                         // Save customer session
                         HttpContext.Session.SetString("CustomerId", kh.CustomerId.ToString());
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Login", "Account");
                         //return RedirectToAction("My account", "Home");
                     }
                     catch (Exception)
