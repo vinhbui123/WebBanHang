@@ -15,27 +15,25 @@ public partial class WebBanHangContext : DbContext
     {
     }
 
-    public virtual DbSet<Customer> Customers { get; set; }
+    public virtual DbSet<Customers> Customers { get; set; }
 
-    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Orders> Orders { get; set; }
 
-    public virtual DbSet<OrderItem> OrderItems { get; set; }
+    public virtual DbSet<OrderItems> OrderItems { get; set; }
 
     public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
 
-    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<Products> Products { get; set; }
 
-    public virtual DbSet<ProductDetail> ProductDetails { get; set; }
+    public virtual DbSet<ProductDetails> ProductDetails { get; set; }
 
     public virtual DbSet<Promotion> Promotions { get; set; }
 
     public virtual DbSet<Ship> Ships { get; set; }
 
-    public virtual DbSet<Stock> Stocks { get; set; }
+    public virtual DbSet<Stocks> Stocks { get; set; }
 
     public virtual DbSet<Store> Stores { get; set; }
-
-    public virtual DbSet<TypeProduct> TypeProducts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -43,13 +41,16 @@ public partial class WebBanHangContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Customer>(entity =>
+        modelBuilder.Entity<Customers>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__8CB382B1ADC8B3D0");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__8CB382B122E3DE93");
 
             entity.Property(e => e.CustomerId).HasColumnName("Customer_id");
             entity.Property(e => e.Address)
                 .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.Avatar)
+                .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Birthday).HasColumnType("datetime");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
@@ -61,6 +62,7 @@ public partial class WebBanHangContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Full_name");
             entity.Property(e => e.LastLogin).HasColumnType("datetime");
+            entity.Property(e => e.LocationId).HasColumnName("LocationID");
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Phone)
                 .HasMaxLength(15)
@@ -70,9 +72,9 @@ public partial class WebBanHangContext : DbContext
                 .IsFixedLength();
         });
 
-        modelBuilder.Entity<Order>(entity =>
+        modelBuilder.Entity<Orders>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF8453368B34ED");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF84534CC98D39");
 
             entity.Property(e => e.OrderId)
                 .ValueGeneratedNever()
@@ -104,9 +106,9 @@ public partial class WebBanHangContext : DbContext
                 .HasConstraintName("order_payment_method_fk");
         });
 
-        modelBuilder.Entity<OrderItem>(entity =>
+        modelBuilder.Entity<OrderItems>(entity =>
         {
-            entity.HasKey(e => new { e.ProductId, e.OrderId }).HasName("PK__Order_it__B72C07D75113A243");
+            entity.HasKey(e => new { e.ProductId, e.OrderId }).HasName("PK__Order_it__B72C07D71BBE8191");
 
             entity.ToTable("Order_items");
 
@@ -121,7 +123,7 @@ public partial class WebBanHangContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("orders_order_items_fk");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
+            entity.HasOne(d => d.Products).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("products_order_items_fk");
@@ -129,7 +131,7 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<PaymentMethod>(entity =>
         {
-            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__7BB189318354E594");
+            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__7BB189311821DE7D");
 
             entity.Property(e => e.PaymentMethodId)
                 .ValueGeneratedNever()
@@ -140,17 +142,14 @@ public partial class WebBanHangContext : DbContext
                 .HasColumnName("Payment_method_name");
         });
 
-        modelBuilder.Entity<Product>(entity =>
+        modelBuilder.Entity<Products>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Products__9833FF92B1CB03C8");
+            entity.HasKey(e => e.ProductId).HasName("PK__Products__9833FF925FC93ECF");
 
             entity.Property(e => e.ProductId)
                 .ValueGeneratedNever()
                 .HasColumnName("Product_id");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.PriceDiscounts)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("Price_discounts");
             entity.Property(e => e.ProductName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -159,21 +158,15 @@ public partial class WebBanHangContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("Special_status");
-            entity.Property(e => e.Thumb)
-                .HasMaxLength(255)
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.TypeId).HasColumnName("Type_id");
             entity.Property(e => e.UnitInStock).HasColumnName("Unit_in_stock");
 
-            entity.HasOne(d => d.ProductNavigation).WithOne(p => p.Product)
-                .HasForeignKey<Product>(d => d.ProductId)
+            entity.HasOne(d => d.ProductNavigation).WithOne(p => p.Products)
+                .HasForeignKey<Products>(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("products_details_fk");
-
-            entity.HasOne(d => d.Type).WithMany(p => p.Products)
-                .HasForeignKey(d => d.TypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("type_product_products_fk");
 
             entity.HasMany(d => d.Promotions).WithMany(p => p.Products)
                 .UsingEntity<Dictionary<string, object>>(
@@ -182,22 +175,22 @@ public partial class WebBanHangContext : DbContext
                         .HasForeignKey("PromotionId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("promotion_promotion_detail_fk"),
-                    l => l.HasOne<Product>().WithMany()
+                    l => l.HasOne<Products>().WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("products_promotion_detail_fk"),
                     j =>
                     {
-                        j.HasKey("ProductId", "PromotionId").HasName("PK__Promotio__B59CD77BE3E5EE49");
+                        j.HasKey("ProductId", "PromotionId").HasName("PK__Promotio__B59CD77BB479AE23");
                         j.ToTable("Promotion_detail");
                         j.IndexerProperty<int>("ProductId").HasColumnName("Product_id");
                         j.IndexerProperty<int>("PromotionId").HasColumnName("Promotion_id");
                     });
         });
 
-        modelBuilder.Entity<ProductDetail>(entity =>
+        modelBuilder.Entity<ProductDetails>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product___9833FF92EEDD5774");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product___9833FF922452D4EC");
 
             entity.ToTable("Product_details");
 
@@ -222,7 +215,7 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__DAF28E93B072FDE1");
+            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__DAF28E9366DEEC05");
 
             entity.ToTable("Promotion");
 
@@ -248,7 +241,7 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<Ship>(entity =>
         {
-            entity.HasKey(e => e.ShipId).HasName("PK__Ship__58D18D03691BCDCA");
+            entity.HasKey(e => e.ShipId).HasName("PK__Ship__58D18D03D9F8F242");
 
             entity.ToTable("Ship");
 
@@ -272,29 +265,23 @@ public partial class WebBanHangContext : DbContext
                 .HasConstraintName("orders_ship_fk");
         });
 
-        modelBuilder.Entity<Stock>(entity =>
+        modelBuilder.Entity<Stocks>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Stocks__9833FF923237F1D7");
+            entity.HasKey(e => e.ProductId).HasName("PK__Stocks__9833FF9279B4855E");
 
             entity.Property(e => e.ProductId)
                 .ValueGeneratedNever()
                 .HasColumnName("Product_id");
-            entity.Property(e => e.StoreId).HasColumnName("Store_id");
 
-            entity.HasOne(d => d.Product).WithOne(p => p.Stock)
-                .HasForeignKey<Stock>(d => d.ProductId)
+            entity.HasOne(d => d.Products).WithOne(p => p.Stock)
+                .HasForeignKey<Stocks>(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("products_stocks_fk");
-
-            entity.HasOne(d => d.Store).WithMany(p => p.Stocks)
-                .HasForeignKey(d => d.StoreId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("stores_stocks_fk");
         });
 
         modelBuilder.Entity<Store>(entity =>
         {
-            entity.HasKey(e => e.StoreId).HasName("PK__Stores__A0F06719070A2752");
+            entity.HasKey(e => e.StoreId).HasName("PK__Stores__A0F067191468428F");
 
             entity.Property(e => e.StoreId)
                 .ValueGeneratedNever()
@@ -307,21 +294,6 @@ public partial class WebBanHangContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Store_name");
-        });
-
-        modelBuilder.Entity<TypeProduct>(entity =>
-        {
-            entity.HasKey(e => e.TypeId).HasName("PK__Type_Pro__FE91E1E6C7D31D21");
-
-            entity.ToTable("Type_Product");
-
-            entity.Property(e => e.TypeId)
-                .ValueGeneratedNever()
-                .HasColumnName("Type_id");
-            entity.Property(e => e.TypeName)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("Type_name");
         });
 
         OnModelCreatingPartial(modelBuilder);

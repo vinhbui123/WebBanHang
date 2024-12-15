@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 namespace WebBanHang.Model;
 
-public partial class Product
+public partial class Products
 {
     public int ProductId { get; set; }
-
-    public int TypeId { get; set; }
 
     public int UnitInStock { get; set; }
 
@@ -19,15 +17,13 @@ public partial class Product
 
     public decimal Price { get; set; }
 
-    public decimal? PriceDiscounts { get; set; }
+    public string Type { get; set; } = null!;
 
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
 
-    public virtual ProductDetail ProductNavigation { get; set; } = null!;
+    public virtual ProductDetails ProductNavigation { get; set; } = null!;
 
-    public virtual Stock? Stock { get; set; }
-
-    public virtual TypeProduct Type { get; set; } = null!;
+    public virtual Stocks? Stock { get; set; }
 
     public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();
 }

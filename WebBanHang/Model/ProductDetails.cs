@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WebBanHang.Model;
 
-public partial class ProductDetail
+public partial class ProductDetails
 {
     public int ProductId { get; set; }
 
@@ -19,5 +19,5 @@ public partial class ProductDetail
 
     public string? Description { get; set; }
 
-    public virtual Product? Product { get; set; }
+    public virtual Products? Products { get; set; }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebBanHang.Model;
 
@@ -11,9 +12,11 @@ using WebBanHang.Model;
 namespace WebBanHang.Migrations
 {
     [DbContext(typeof(WebBanHangContext))]
-    partial class WebBanHangContextModelSnapshot : ModelSnapshot
+    [Migration("20241213164705_Product")]
+    partial class Product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,12 +234,17 @@ namespace WebBanHang.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UnitInStock")
                         .HasColumnType("int")
                         .HasColumnName("Unit_in_stock");
 
                     b.HasKey("ProductId")
                         .HasName("PK__Products__9833FF92B1CB03C8");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Products");
                 });
@@ -408,6 +416,25 @@ namespace WebBanHang.Migrations
                     b.ToTable("Stores");
                 });
 
+            modelBuilder.Entity("WebBanHang.Model.TypeProduct", b =>
+                {
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("Type_id");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("Type_name");
+
+                    b.HasKey("TypeId")
+                        .HasName("PK__Type_Pro__FE91E1E6C7D31D21");
+
+                    b.ToTable("Type_Product", (string)null);
+                });
+
             modelBuilder.Entity("PromotionDetail", b =>
                 {
                     b.HasOne("WebBanHang.Model.Product", null)
@@ -469,7 +496,15 @@ namespace WebBanHang.Migrations
                         .IsRequired()
                         .HasConstraintName("products_details_fk");
 
+                    b.HasOne("WebBanHang.Model.TypeProduct", "Type")
+                        .WithMany("Products")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("ProductNavigation");
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("WebBanHang.Model.Ship", b =>
@@ -534,6 +569,11 @@ namespace WebBanHang.Migrations
             modelBuilder.Entity("WebBanHang.Model.Store", b =>
                 {
                     b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("WebBanHang.Model.TypeProduct", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@model X.PagedList.IPagedList<Products>
+@using X.PagedList.Mvc.Core;
 <div id="carouselBlk">
 	<div id="myCarousel" class="carousel slide">
 		<div class="carousel-inner">
@@ -128,27 +129,6 @@
 					<li><a href="products.html">SPORTS & LEISURE [58]</a></li>
 					<li><a href="products.html">BOOKS & ENTERTAINMENTS [14]</a></li>
 				</ul>
-				<br />
-				<div class="thumbnail">
-					<img src="~/themes/images/products/panasonic.jpg" alt="Bootshop panasonoc New camera" />
-					<div class="caption">
-						<h5>Panasonic</h5>
-						<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$222.00</a></h4>
-					</div>
-				</div><br />
-				<div class="thumbnail">
-					<img src="~/themes/images/products/kindle.png" title="Bootshop New Kindel" alt="Bootshop Kindel">
-					<div class="caption">
-						<h5>Kindle</h5>
-						<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$222.00</a></h4>
-					</div>
-				</div><br />
-				<div class="thumbnail">
-					<img src="~/themes/images/payment_methods.png" title="Bootshop Payment Methods" alt="Payments Methods">
-					<div class="caption">
-						<h5>Payment Methods</h5>
-					</div>
-				</div>
 			</div>
 			<!-- Sidebar end=============================================== -->
 			<div class="span9">
@@ -329,83 +309,37 @@
 						</div>
 					</div>
 				</div>
-				<h4>Latest Products </h4>
-				<ul class="thumbnails">
-					<li class="span3">
-						<div class="thumbnail">
-							<a href="product_details.html"><img src="~/themes/images/products/6.jpg" alt="" /></a>
-							<div class="caption">
-								<h5>Product name</h5>
-								<p>
-									Lorem Ipsum is simply dummy text.
-								</p>
-
-								<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$222.00</a></h4>
-							</div>
-						</div>
-					</li>
-					<li class="span3">
-						<div class="thumbnail">
-							<a href="product_details.html"><img src="~/themes/images/products/7.jpg" alt="" /></a>
-							<div class="caption">
-								<h5>Product name</h5>
-								<p>
-									Lorem Ipsum is simply dummy text.
-								</p>
-								<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$222.00</a></h4>
-							</div>
-						</div>
-					</li>
-					<li class="span3">
-						<div class="thumbnail">
-							<a href="product_details.html"><img src="~/themes/images/products/8.jpg" alt="" /></a>
-							<div class="caption">
-								<h5>Product name</h5>
-								<p>
-									Lorem Ipsum is simply dummy text.
-								</p>
-								<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$222.00</a></h4>
-							</div>
-						</div>
-					</li>
-					<li class="span3">
-						<div class="thumbnail">
-							<a href="product_details.html"><img src="~/themes/images/products/9.jpg" alt="" /></a>
-							<div class="caption">
-								<h5>Product name</h5>
-								<p>
-									Lorem Ipsum is simply dummy text.
-								</p>
-								<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$222.00</a></h4>
-							</div>
-						</div>
-					</li>
-					<li class="span3">
-						<div class="thumbnail">
-							<a href="product_details.html"><img src="~/themes/images/products/10.jpg" alt="" /></a>
-							<div class="caption">
-								<h5>Product name</h5>
-								<p>
-									Lorem Ipsum is simply dummy text.
-								</p>
-								<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$222.00</a></h4>
-							</div>
-						</div>
-					</li>
-					<li class="span3">
-						<div class="thumbnail">
-							<a href="product_details.html"><img src="~/themes/images/products/11.jpg" alt="" /></a>
-							<div class="caption">
-								<h5>Product name</h5>
-								<p>
-									Lorem Ipsum is simply dummy text.
-								</p>
-								<h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">$222.00</a></h4>
-							</div>
-						</div>
-					</li>
-				</ul>
-
+				<h4>Latest Products</h4>
+<ul class="thumbnails">
+    @foreach (var item in Model)
+    {
+        <li class="span3">
+            <div class="thumbnail">
+								<a href="product_details.html"><img src="~/themes/images/products/11.jpg" alt="@item.ProductName" /></a>
+                <div class="caption">
+                    <h5>@item.ProductName</h5>
+                    <h4 style="text-align:center">
+                        <a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a>
+                        <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a>
+                        <a class="btn btn-primary" href="#"> @item.Price $</a>
+                    </h4>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+				<div class="pagination">
+					@Html.PagedListPager(
+						Model,
+						page => Url.Action("Index", new { page = page }),
+						new PagedListRenderOptions
+					{
+						MaximumPageNumbersToDisplay = 5,
+						DisplayLinkToIndividualPages = true,
+						DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+						EllipsesFormat = "..."
+					})
+				</div>
 			</div>
 		</div>
 	</div>

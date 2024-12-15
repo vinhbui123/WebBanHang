@@ -106,18 +106,6 @@ namespace WebBanHang.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Type_Product",
-                columns: table => new
-                {
-                    Type_id = table.Column<int>(type: "int", nullable: false),
-                    Type_name = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__Type_Pro__FE91E1E6E9F69A32", x => x.Type_id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
