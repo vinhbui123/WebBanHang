@@ -147,7 +147,7 @@ namespace WebBanHang.Controllers
                     try
                     {
                         String salt = Utilities.GetRandomKey();
-                        Customers kh = new Customers
+                        Customer kh = new Customer
                         {
                             FullName = account.FullName,
                             Phone = account.PhoneNumber.Trim().ToLower(),

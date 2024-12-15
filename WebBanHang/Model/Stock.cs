@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace WebBanHang.Model;
 
-public partial class Stocks
+public partial class Stock
 {
     public int ProductId { get; set; }
 
     public int Quantity { get; set; }
 
-    public virtual Products Products { get; set; } = null!;
+    public virtual Product Product { get; set; } = null!;
 }

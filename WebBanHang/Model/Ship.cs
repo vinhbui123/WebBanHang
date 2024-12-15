@@ -17,5 +17,5 @@ public partial class Ship
 
     public string ShipStatus { get; set; } = null!;
 
-    public virtual Orders Shipper { get; set; } = null!;
+    public virtual Order Shipper { get; set; } = null!;
 }

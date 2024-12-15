@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model X.PagedList.IPagedList<Products>
+@model X.PagedList.IPagedList<Product>
 @using X.PagedList.Mvc.Core;
 <div id="carouselBlk">
 	<div id="myCarousel" class="carousel slide">
@@ -309,25 +309,30 @@
 						</div>
 					</div>
 				</div>
-				<h4>Latest Products</h4>
-<ul class="thumbnails">
-    @foreach (var item in Model)
-    {
-        <li class="span3">
-            <div class="thumbnail">
-								<a href="product_details.html"><img src="~/themes/images/products/11.jpg" alt="@item.ProductName" /></a>
-                <div class="caption">
-                    <h5>@item.ProductName</h5>
-                    <h4 style="text-align:center">
-                        <a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a>
-                        <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a>
-                        <a class="btn btn-primary" href="#"> @item.Price $</a>
-                    </h4>
-                </div>
-            </div>
-        </li>
-    }
-</ul>
+
+				<h4>Products</h4>
+				<ul class="thumbnails">
+					@foreach (var item in Model)
+					{
+						var base64Image = item.Thumb != null ? "data:image/jpeg;base64," + Convert.ToBase64String(item.Thumb) : "~/themes/images/products/default.jpg";
+						<li class="span3">
+							<div class="thumbnail">
+								<a href="product_details.html">
+									<img src="@base64Image" alt="@item.ProductName" />
+								</a>
+								<div class="caption">
+									<h5>@item.ProductName</h5>
+									<h4 style="text-align:center">
+										<a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a>
+										<a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a>
+										<a class="btn btn-primary" href="#"> @item.PriceDiscounts $</a>
+									</h4>
+								</div>
+							</div>
+						</li>
+					}
+				</ul>
+
 				<div class="pagination">
 					@Html.PagedListPager(
 						Model,

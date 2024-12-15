@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WebBanHang.Model;
 
-public partial class Orders
+public partial class Order
 {
     public int OrderId { get; set; }
 
@@ -25,9 +25,9 @@ public partial class Orders
 
     public string? Note { get; set; }
 
-    public virtual Customers Customer { get; set; } = null!;
+    public virtual Customer Customer { get; set; } = null!;
 
-    public virtual ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
     public virtual PaymentMethod PaymentMethod { get; set; } = null!;
 

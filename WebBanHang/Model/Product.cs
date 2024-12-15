@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace WebBanHang.Model;
 
-public partial class Products
+public partial class Product
 {
     public int ProductId { get; set; }
 
     public int UnitInStock { get; set; }
 
-    public string? Thumb { get; set; }
+    public byte[]? Thumb { get; set; }
+
+    public string Type { get; set; } = null!;
 
     public string ProductName { get; set; } = null!;
 
@@ -17,13 +19,13 @@ public partial class Products
 
     public decimal Price { get; set; }
 
-    public string Type { get; set; } = null!;
+    public decimal? PriceDiscounts { get; set; }
 
-    public virtual ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-    public virtual ProductDetails ProductNavigation { get; set; } = null!;
+    public virtual ProductDetail ProductNavigation { get; set; } = null!;
 
-    public virtual Stocks? Stock { get; set; }
+    public virtual Stock? Stock { get; set; }
 
     public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();
 }

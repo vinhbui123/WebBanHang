@@ -22,8 +22,7 @@ namespace WebBanHang.Controllers
 			int pageSize = 9;
 			var pageNumber = page == null || page < 1 ? 1 : page.Value;
 			var productList = _db.Products.AsNoTracking().OrderBy(x => x.ProductName);
-			PagedList<Products> list = new PagedList<Products>(productList, pageNumber, pageSize);
-
+			PagedList<Product> list = new PagedList<Product>(productList, pageNumber, pageSize);
 			return View(list);
 		}
 

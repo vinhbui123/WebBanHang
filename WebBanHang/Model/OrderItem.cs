@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WebBanHang.Model;
 
-public partial class OrderItems
+public partial class OrderItem
 {
     public int ProductId { get; set; }
 
@@ -13,7 +13,7 @@ public partial class OrderItems
 
     public decimal ListPrice { get; set; }
 
-    public virtual Orders Order { get; set; } = null!;
+    public virtual Order Order { get; set; } = null!;
 
-    public virtual Products Products { get; set; } = null!;
+    public virtual Product Product { get; set; } = null!;
 }

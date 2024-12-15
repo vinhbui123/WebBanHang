@@ -19,5 +19,5 @@ public partial class Promotion
 
     public string? Description { get; set; }
 
-    public virtual ICollection<Products> Products { get; set; } = new List<Products>();
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
