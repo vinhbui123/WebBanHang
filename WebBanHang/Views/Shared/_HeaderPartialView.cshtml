@@ -1,6 +1,8 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Home";
+}
 <div id="header">
-    <div class="container" style="width:1670px">
+    <div class="container" style="width:1500px">
         <div id="welcomeLine" class="row">
             <div class="span6">Welcome! <strong>User</strong></div>
             <div class="span6">
@@ -19,27 +21,23 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
+
             <div class="navbar-inner">
                 <a class="brand" href="index.html">
                     <img src="~/themes/images/logo.png" alt="Bootsshop" />
                 </a>
-                <form class="form-inline navbar-search" method="post" action="products.html">
-                    <input id="srchFld" class="srchTxt" type="text" />
-                    <select class="srchTxt">
-                        <option>All</option>
-                        <option>CLOTHES</option>
-                        <option>FOOD AND BEVERAGES</option>
-                        <option>HEALTH & BEAUTY</option>
-                        <option>SPORTS & LEISURE</option>
-                        <option>BOOKS & ENTERTAINMENTS</option>
-                    </select>
-                    <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
+
+                <form method="post" action="/findProduct" class="form-inline navbar-search">
+                    <input id="srchFld" class="srchTxt" name="searchQuery" type="text" placeholder="Enter item name" />
+                    <button type="submit" class="btn-large" id="search-btn">Search</button>
                 </form>
+
                 <ul id="topMenu" class="nav pull-right">
                     <li><a href="special_offer.html">Special Offer</a></li>
                     <li><a href="normal.html">Delivery</a></li>
                     <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
+
                 <div class="dropdown">
                     <a class="dropbtn"><img src="/image/account.png" alt="Alternate Text" /></a>
                     <div class="dropdown-content">
@@ -61,3 +59,4 @@
         </div>
     </div>
 </div>
+

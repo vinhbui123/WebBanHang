@@ -59,7 +59,6 @@ namespace WebBanHang.Controllers
             catch (Exception ex)
             {
                 // Log the exception for debugging
-                ViewBag.ErrorMessage = ex.Message;
                 return Json(data: "Đã xảy ra lỗi, vui lòng thử lại sau.");
             }
         }
@@ -82,46 +81,24 @@ namespace WebBanHang.Controllers
             }
         }
 
-
-        [HttpPost]
-        [Microsoft.AspNetCore.Mvc.Route("My_account.cshtml", Name = "My account")]
-        public async Task<IActionResult> MyAccount()
-        {
-            try
-            {
-                var Idtk = HttpContext.Session.GetString("CustomerId");
-                if (Idtk != null)
-                {
-                    //Retrieve a customer record from the Customers table based on the CustomerId and Idtk variable likely contains the ID of the customer you want to find.
-                    var khachhang = _db.Customers.AsNoTracking().SingleOrDefault(x => x.CustomerId == Convert.ToInt32(Idtk));
-                    //It’s often shorter and easier to write for simple queries than linq.
-                    if (khachhang != null)
-                        return View();
-                }
-
-
-            }
-            catch { }
-
-            return RedirectToAction("Login");
-        }
-
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        [Microsoft.AspNetCore.Mvc.Route("Signup.html", Name = "Signup")]
+		//GET requests, which are typically used to retrieve data from the server.
+		[AllowAnonymous]
+        [Microsoft.AspNetCore.Mvc.Route("Sign up", Name = "Signup")]
         public IActionResult Signup()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        [Microsoft.AspNetCore.Mvc.Route("Signup.html", Name = "Sign up")]
+		//requests, which are typically used to submit data to the server for processing
+		[AllowAnonymous]
+        [Microsoft.AspNetCore.Mvc.Route("Sign up", Name = "Sign up")]
         public async Task<IActionResult> Signup(SignUpVM account)
             //Asyn :Indicates that the method supports asynchronous operations.
             //Improves performance by freeing up the thread while waiting for I/O-bound operations
@@ -184,7 +161,7 @@ namespace WebBanHang.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
+        [Microsoft.AspNetCore.Mvc.Route("Login", Name = "Login")]
         public IActionResult Login(string? returnUrl = null)
         {
             return View();
@@ -194,7 +171,7 @@ namespace WebBanHang.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [Microsoft.AspNetCore.Mvc.Route("Login.html", Name = "Login")]
+        [Microsoft.AspNetCore.Mvc.Route("Login", Name = "Login")]
         public async Task<IActionResult> Login(LoginVm customer, string? returnUrl = null)
         {
             try
@@ -222,6 +199,7 @@ namespace WebBanHang.Controllers
                     bool isEmail = Utilities.IsValidEmail(customer.UserName);
                     if (!isEmail) return View(customer);
 
+                    //AsNoTracking is from Entity Framework(EF) to return the results without tracking changes to the entities
                     var kh = _db.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == customer.UserName);
                     if (kh == null) return RedirectToAction("Signup");
 
@@ -299,5 +277,12 @@ namespace WebBanHang.Controllers
             }
         }
 
-    }
+		[AllowAnonymous]
+		[Microsoft.AspNetCore.Mvc.Route("abc", Name = "")]
+		public IActionResult abc()
+		{
+			return View();
+		}
+
+	}
 }

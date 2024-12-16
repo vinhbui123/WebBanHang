@@ -28,7 +28,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options =>
         {
             options.LoginPath = "/Account/Login";
-            options.AccessDeniedPath = new PathString("/");
+            options.AccessDeniedPath = new PathString("/Home/Index");
         });
 var app = builder.Build();
 
@@ -57,8 +57,11 @@ app.UseEndpoints(endpoints =>
     );
 });
 
+
+//set area route
 app.MapControllerRoute(
-    name: "default",
+    name: "Home",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();

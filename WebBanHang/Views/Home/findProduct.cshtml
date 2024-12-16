@@ -1,0 +1,49 @@
+﻿@{
+	ViewData["Title"] = "Product";
+}
+@model X.PagedList.IPagedList<Product>
+@using X.PagedList.Mvc.Core;
+
+<style>
+	* {
+		cursor: none;
+	}
+</style>
+
+<h4>Products</h4>
+<ul class="thumbnails">
+	@foreach (var item in Model)
+	{
+		var base64Image = item.Thumb != null ? "data:image/jpeg;base64," + Convert.ToBase64String(item.Thumb) : "~/themes/images/products/default.jpg";
+		<li class="span3">
+			<div class="thumbnail">
+				<a href="product_details.html">
+					<img src="@base64Image" alt="@item.ProductName" />
+				</a>
+				<div class="caption">
+					<h5>@item.ProductName</h5>
+					<h4 style="text-align:center">
+						<a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a>
+						<a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a>
+						<a class="btn btn-primary" href="#"> @item.PriceDiscounts $</a>
+					</h4>
+				</div>
+			</div>
+		</li>
+	}
+</ul>
+
+<div class="pagination" id="pagination-section">
+	@Html.PagedListPager(
+			Model,
+			page => Url.Action("Index", new { page = page }),
+			new PagedListRenderOptions
+	{
+		MaximumPageNumbersToDisplay = 5,
+		DisplayLinkToIndividualPages = true,
+		DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+		EllipsesFormat = "..."
+	})
+</div>
+
+
