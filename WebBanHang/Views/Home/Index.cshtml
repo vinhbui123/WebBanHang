@@ -1,138 +1,47 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Product";
 }
 @model X.PagedList.IPagedList<Product>
 @using X.PagedList.Mvc.Core;
-<div id="carouselBlk">
-	<div id="myCarousel" class="carousel slide">
-		<div class="carousel-inner">
-			<div class="item active">
-				<div class="container">
-					<a href="@Url.Action("Signup", "Account")">
-						<img style="width:100%" src="~/themes/images/carousel/1.png" alt="special offers" />
-					</a>
 
-					<div class="carousel-caption">
-						<h4>Second Thumbnail label</h4>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="container">
-					<a href="@Url.Action("Signup", "Account")">
-						<img style="width:100%" src="~/themes/images/carousel/2.png" alt="special offers" />
-					</a>
-					<div class="carousel-caption">
-						<h4>Second Thumbnail label</h4>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="container">
-
-					<a href="@Url.Action("Signup", "Account")">
-						<img style="width:100%" src="~/themes/images/carousel/3.png" alt="special offers" />
-					</a>
-
-					<div class="carousel-caption">
-						<h4>Second Thumbnail label</h4>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-					</div>
-
-				</div>
-			</div>
-			<div class="item">
-				<div class="container">
-
-					<a href="@Url.Action("Signup", "Account")">
-						<img style="width:100%" src="~/themes/images/carousel/4.png" alt="special offers" />
-					</a>
-
-					<div class="carousel-caption">
-						<h4>Second Thumbnail label</h4>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-					</div>
-
-				</div>
-			</div>
-			<div class="item">
-				<div class="container">
-					<a href="@Url.Action("Signup", "Account")">
-						<img style="width:100%" src="~/themes/images/carousel/5.png" alt="special offers" />
-					</a>
-					<div class="carousel-caption">
-						<h4>Second Thumbnail label</h4>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="container">
-					<a href="@Url.Action("Signup", "Account")">
-						<img style="width:100%" src="~/themes/images/carousel/6.png" alt="special offers" />
-					</a>
-					<div class="carousel-caption">
-						<h4>Second Thumbnail label</h4>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-		<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
-	</div>
-</div>
 <div id="mainBody">
-	<div class="container">
-		<div class="row">
-			<!-- Sidebar ================================================== -->
-			<ul id="sideManu" class="nav nav-tabs nav-stacked">
-				@foreach (var item in Model.DistinctBy(x => x.Type))
-				{
-					<li>@item.Type</li>
-				}
-			</ul>
+    <div class="container">
+        <div class="row">
+            <h3 style="display: flex; width: fit-content;margin-left:1000px;margin-bottom:60px">Products</h3>
+            <ul class="thumbnails" style="width:1200px; margin-top:-40px">
+                @foreach (var item in Model)
+                {
+                    var base64Image = item.Thumb != null ? "data:image/jpeg;base64," + Convert.ToBase64String(item.Thumb) : "~/themes/images/products/default.jpg";
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <a href="product_details.html">
+                                <img src="@base64Image" alt="@item.ProductName" />
+                            </a>
+                            <div class="caption">
+                                <h5>@item.ProductName</h5>
+                                <h4 style="text-align:center">
+                                    <a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a>
+                                    <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a>
+                                    <a class="btn btn-primary" href="#"> @item.PriceDiscounts $</a>
+                                </h4>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
 
-			<!-- Sidebar end=============================================== -->
-				<h3 style="display: flex; width: fit-content;margin-left:1000px;margin-top:-70px;margin-bottom:60px">Products</h3>
-
-				<ul class="thumbnails" style="margin-left:300px; width:1000px; margin-top:-40px">
-					@foreach (var item in Model)
-					{
-						var base64Image = item.Thumb != null ? "data:image/jpeg;base64," + Convert.ToBase64String(item.Thumb) : "~/themes/images/products/default.jpg";
-						<li class="span3">
-							<div class="thumbnail">
-								<a href="product_details.html">
-									<img src="@base64Image" alt="@item.ProductName" />
-								</a>
-								<div class="caption">
-									<h5>@item.ProductName</h5>
-									<h4 style="text-align:center">
-										<a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a>
-										<a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a>
-										<a class="btn btn-primary" href="#"> @item.PriceDiscounts $</a>
-									</h4>
-								</div>
-							</div>
-						</li>
-					}
-				</ul>
-
-				<div class="pagination">
-					@Html.PagedListPager(
-						Model,
-						page => Url.Action("Index", new { page = page }),
-						new PagedListRenderOptions
-					{
-						MaximumPageNumbersToDisplay = 5,
-						DisplayLinkToIndividualPages = true,
-						DisplayEllipsesWhenNotShowingAllPageNumbers = true,
-						EllipsesFormat = "..."
-					})
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="pagination">
+                @Html.PagedListPager(
+                         Model,
+                         page => Url.Action("Index", new { page = page }),
+                         new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 5,
+                    DisplayLinkToIndividualPages = true,
+                    DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                    EllipsesFormat = "..."
+                })
+            </div>
+        </div>
+    </div>
 </div>

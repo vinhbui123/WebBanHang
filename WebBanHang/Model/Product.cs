@@ -23,8 +23,6 @@ public partial class Product
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-    public virtual ProductDetail ProductNavigation { get; set; } = null!;
-
     public virtual Stock? Stock { get; set; }
 
     public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();

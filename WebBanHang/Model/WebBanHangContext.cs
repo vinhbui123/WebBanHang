@@ -86,7 +86,6 @@ public partial class WebBanHangContext : DbContext
                 .HasColumnName("Order_status");
             entity.Property(e => e.PaymentMethodId).HasColumnName("Payment_method_id");
             entity.Property(e => e.ReceivedDate).HasColumnName("Received_date");
-            entity.Property(e => e.StoreId).HasColumnName("Store_id");
             entity.Property(e => e.TotalPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Total_price");
@@ -162,11 +161,6 @@ public partial class WebBanHangContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.UnitInStock).HasColumnName("Unit_in_stock");
 
-            entity.HasOne(d => d.ProductNavigation).WithOne(p => p.Product)
-                .HasForeignKey<Product>(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("products_details_fk");
-
             entity.HasMany(d => d.Promotions).WithMany(p => p.Products)
                 .UsingEntity<Dictionary<string, object>>(
                     "PromotionDetail",
@@ -189,13 +183,10 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<ProductDetail>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product___9833FF9292E28648");
+            entity
+                .HasNoKey()
+                .ToTable("Product_details");
 
-            entity.ToTable("Product_details");
-
-            entity.Property(e => e.ProductId)
-                .ValueGeneratedNever()
-                .HasColumnName("Product_id");
             entity.Property(e => e.Brand)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -207,9 +198,14 @@ public partial class WebBanHangContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.ModelYear).HasColumnName("Model_year");
+            entity.Property(e => e.ProductId).HasColumnName("Product_id");
             entity.Property(e => e.Videos)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Product).WithMany()
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK_ProductDetails_Product");
         });
 
         modelBuilder.Entity<Promotion>(entity =>

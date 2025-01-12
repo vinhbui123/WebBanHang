@@ -19,5 +19,5 @@ public partial class ProductDetail
 
     public string? Description { get; set; }
 
-    public virtual Product? Product { get; set; }
+    public virtual Product Product { get; set; } = null!;
 }

@@ -14,6 +14,12 @@
  * v 1.0
  */
 
+$("#search-btn").click(function (e) {
+    $.ajax({
+        url: '@Url.Action("")'
+    })
+});
+
 (function ($) {
 
     var paginate = {

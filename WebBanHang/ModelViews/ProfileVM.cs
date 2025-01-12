@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http; // Add this for IFormFile
 
 namespace WebBanHang.ModelViews
 {
-    public class SignUpVM
+    public class ProfileVM
     {
         [Key]
         public int CustomerId { get; set; }
@@ -34,11 +32,6 @@ namespace WebBanHang.ModelViews
         [MinLength(5, ErrorMessage = "Input minimum 5 characters")]
         public string Password { get; set; }
 
-        [MinLength(5, ErrorMessage = "Input minimum 5 characters")]
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Passwords do not match")]
-        public string ConfirmPassword { get; set; }
-
         [Display(Name = "Birthday")]
         [Required(ErrorMessage = "Input your birthday")]
         [DataType(DataType.Date)]
@@ -55,5 +48,8 @@ namespace WebBanHang.ModelViews
         [Required(ErrorMessage = "Input your avatar image")]
         [DataType(DataType.Upload)]
         public IFormFile AvatarFile { get; set; }
+
+        public byte[]? Avatar { get; set; }
     }
+
 }

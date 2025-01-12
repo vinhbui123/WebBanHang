@@ -27,5 +27,7 @@ public partial class Customer
 
     public bool Active { get; set; }
 
+    public byte[]? Avatar { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

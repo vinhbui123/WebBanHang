@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Drawing.Printing;
 using WebBanHang.Model;
 using X.PagedList;
 
@@ -22,9 +23,11 @@ namespace WebBanHang.Controllers
 
 		public IActionResult Index(int? page)
 		{
-			int pageSize = 9;
+
+			int pageSize = 12;
 			var pageNumber = page == null || page < 1  ? 1 : page.Value;
 			var productList = _db.Products.AsNoTracking().OrderBy(x => x.ProductName);
+
 			PagedList<Product> list = new PagedList<Product>(productList, pageNumber, pageSize);
 			return View(list);
 		}
@@ -33,7 +36,7 @@ namespace WebBanHang.Controllers
 		[AllowAnonymous]
 		[HttpPost]
 		[Route("FindProduct", Name = "find")]
-		public IActionResult FindProduct(string searchQuery, int? page)
+		public ActionResult FindProduct(string searchQuery, int? page)
 		{
 			if (string.IsNullOrWhiteSpace(searchQuery))
 			{
@@ -42,17 +45,15 @@ namespace WebBanHang.Controllers
 			}
 
 			// Case-insensitive search for products matching the query
-			int pageSize = 9;
+			int pageSize = 12;
 			int pageNumber = page ?? 1;
-
 			var productList = _db.Products
 				.AsNoTracking()
 				.Where(x => x.ProductName.ToLower().Contains(searchQuery.ToLower()))
 				.OrderBy(x => x.ProductName);
 
-			var pagedList = new PagedList<Product>(productList, pageNumber, pageSize);
-
-			return View("Index", pagedList);
-		}
-	}
+            PagedList<Product> list = new PagedList<Product>(productList, pageNumber, pageSize);
+            return View(list);
+        }
+    }
 }

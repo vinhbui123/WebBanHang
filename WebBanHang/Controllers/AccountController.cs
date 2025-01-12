@@ -14,6 +14,7 @@ using WebBanHang.Helpper;
 using WebBanHang.Migrations;
 using WebBanHang.Model;
 using WebBanHang.ModelViews;
+using WebBanHang.ViewModels;
 namespace WebBanHang.Controllers
 {
     [Authorize]
@@ -121,14 +122,26 @@ namespace WebBanHang.Controllers
                     }
 
                     // Create a new customer if no duplicate is found
+                    byte[] avatarBytes = null;
+                    if (account.AvatarFile != null && account.AvatarFile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await account.AvatarFile.CopyToAsync(memoryStream);
+                            avatarBytes = memoryStream.ToArray(); // Store image as byte array
+                        }
+                    }
+
+                    // Create a new customer if no duplicate is found
                     try
                     {
-                        String salt = Utilities.GetRandomKey();
+                        string salt = Utilities.GetRandomKey();
                         Customer kh = new Customer
                         {
                             FullName = account.FullName,
                             Phone = account.PhoneNumber.Trim().ToLower(),
                             Address = account.Address.Trim().ToLower(),
+                            Avatar = avatarBytes, // Store the image as byte array
                             Birthday = account.Birthday,
                             Email = account.Email.Trim().ToLower(),
                             Password = (account.Password.Trim().ToLower() + salt.Trim()).ToMD5(),
@@ -165,6 +178,110 @@ namespace WebBanHang.Controllers
         public IActionResult Login(string? returnUrl = null)
         {
             return View();
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            // Retrieve the CustomerId from the session
+            var customerId = HttpContext.Session.GetString("CustomerId");
+
+            // If the session data is not set, redirect to Login
+            if (string.IsNullOrEmpty(customerId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Retrieve customer information from the database
+            var customer = await _db.Customers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.CustomerId.ToString() == customerId);
+
+            if (customer == null)
+            {
+                // Redirect to Login if the customer does not exist
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Prepare the ViewModel for the profile
+            var model = new ProfileVM
+            {
+                CustomerId = customer.CustomerId,
+                FullName = customer.FullName,
+                Email = customer.Email,
+                PhoneNumber = customer.Phone,
+                Address = customer.Address,
+                Birthday = (DateTime)customer.Birthday,
+                Avatar = customer.Avatar
+            };
+
+            // Pass the ViewModel to the view
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(ProfileVM account)
+        {
+            // Retrieve the CustomerId from the session
+            var customerId = HttpContext.Session.GetString("CustomerId");
+
+            // If the session data is not set, redirect to Login
+            if (string.IsNullOrEmpty(customerId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Retrieve customer information from the database
+            var customer = await _db.Customers
+                .FirstOrDefaultAsync(x => x.CustomerId.ToString() == customerId);
+
+            if (customer == null)
+            {
+                // Redirect to Login if the customer does not exist
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Validate and handle avatar upload
+            byte[] avatarBytes = customer.Avatar; // Use existing avatar if no new one is uploaded
+            if (account.AvatarFile != null && account.AvatarFile.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await account.AvatarFile.CopyToAsync(memoryStream);
+                    avatarBytes = memoryStream.ToArray(); // Store uploaded image as byte array
+                }
+            }
+
+            // Validate and handle birthday
+            if (account.Birthday < new DateTime(1753, 1, 1) || account.Birthday > new DateTime(9999, 12, 31))
+            {
+                ModelState.AddModelError("Birthday", "Invalid date. Must be between 1/1/1753 and 12/31/9999.");
+                return View(account); // Return the form with validation errors
+            }
+
+            // Update customer information
+            customer.FullName = account.FullName;
+            customer.Email = account.Email;
+            customer.Phone = account.PhoneNumber;
+            customer.Address = account.Address;
+            customer.Birthday = account.Birthday;
+            customer.Avatar = avatarBytes;
+
+            try
+            {
+                _db.Customers.Update(customer);
+                await _db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and show an error message
+                ModelState.AddModelError(string.Empty, "An error occurred while updating your profile. Please try again.");
+                return View(account);
+            }
+
+            // Redirect to the same profile page after successful update
+            return RedirectToAction("Profile", "Account");
         }
 
 
@@ -219,6 +336,7 @@ namespace WebBanHang.Controllers
                     // if (!kh.Active) return RedirectToAction("ThongBao", "Accounts");
 
                     // Save session data
+                    // In the Login method, after successful login:
                     HttpContext.Session.SetString("CustomerId", kh.CustomerId.ToString());
 
                     // Create identity and issue authentication cookie
@@ -277,12 +395,49 @@ namespace WebBanHang.Controllers
             }
         }
 
+		[HttpGet]
 		[AllowAnonymous]
-		[Microsoft.AspNetCore.Mvc.Route("abc", Name = "")]
-		public IActionResult abc()
+		[Route("Order", Name = "Order")]
+		public IActionResult Order()
 		{
-			return View();
+			var customerId = HttpContext.Session.GetString("CustomerId");
+
+			if (string.IsNullOrEmpty(customerId))
+			{
+				return RedirectToAction("Login", "Account");
+			}
+
+			if (!int.TryParse(customerId, out var parsedCustomerId))
+			{
+				// Optional: Add logging or error handling for invalid session value
+				return RedirectToAction("Login", "Account");
+			}
+
+			var orders = _db.Orders
+				.Include(o => o.OrderItems)
+				.ThenInclude(oi => oi.Product)
+				.AsNoTracking()
+				.Where(o => o.CustomerId == parsedCustomerId)
+				.ToList();
+
+			var orderSummaries = orders.Select(order => new OrderSummaryVM
+			{
+				OrderId = order.OrderId,
+				OrderDate = order.OrderDate.ToDateTime(TimeOnly.MinValue),
+				TotalPrice = order.TotalPrice,
+				OrderStatus = order.OrderStatus,
+				Items = order.OrderItems.Select(oi => new OrderItemVM
+				{
+					ProductName = oi.Product.ProductName,
+					Quantity = oi.Quantity,
+					Price = oi.ListPrice,
+					Total = oi.Quantity * oi.ListPrice
+				}).ToList()
+			}).ToList();
+
+			return View(orderSummaries);
 		}
+
 
 	}
 }

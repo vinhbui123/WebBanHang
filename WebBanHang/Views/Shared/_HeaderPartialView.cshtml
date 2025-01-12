@@ -5,13 +5,15 @@
     <div class="container" style="width:1500px">
         <div id="welcomeLine" class="row">
             <div class="span6">Welcome! <strong>User</strong></div>
-            <div class="span6">
+            <div class="span6" style="margin-left:20px">
                 <div class="pull-right">
-                    <a href="product_summary.html">
-                        <span class="btn btn-mini btn-primary">
-                            <i class="icon-shopping-cart icon-white"></i> [ 3 ] Items in your cart
-                        </span>
-                    </a>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<a href="@Url.Action("Order", "Account")" class="btn btn-mini btn-primary">
+							<i class="icon-shopping-cart icon-white"></i> your cart
+						</a>
+					}
+
                 </div>
             </div>
         </div>
@@ -23,12 +25,12 @@
             </a>
 
             <div class="navbar-inner">
-                <a class="brand" href="index.html">
+                <a class="brand" href="/Home/Index">
                     <img src="~/themes/images/logo.png" alt="Bootsshop" />
                 </a>
 
-                <form method="post" action="/findProduct" class="form-inline navbar-search">
-                    <input id="srchFld" class="srchTxt" name="searchQuery" type="text" placeholder="Enter item name" />
+                <form method="post" action="/findProduct" class="form-inline navbar-search" id="searchBy">
+					<input id="srchFld" class="srchTxt form-control" name="searchQuery" type="text" placeholder="Enter item name" />
                     <button type="submit" class="btn-large" id="search-btn">Search</button>
                 </form>
 
@@ -41,12 +43,18 @@
                 <div class="dropdown">
                     <a class="dropbtn"><img src="/image/account.png" alt="Alternate Text" /></a>
                     <div class="dropdown-content">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <form method="post" action="@Url.Action("Logout", "Account")">
-                                <button type="submit" class="btn-large">Log out</button>
-                            </form>
-                        }
+						@if (User.Identity.IsAuthenticated)
+						{
+							<form method="post" action="@Url.Action("Logout", "Account")">
+								<button type="submit" class="btn-large">Log out</button>
+							</form>
+
+							<!-- Button to redirect to Profile page -->
+							<form action="@Url.Action("Profile", "Account")" style="margin-top:-20px">
+								<button type="submit" class="btn-large">Profile</button>
+							</form>
+						}
+
                         else
                         {
                             <a href="@Url.Action("Login", "Account")" class="btn-large">Login</a>
@@ -58,5 +66,87 @@
             </div>
         </div>
     </div>
+
+	<div id="carouselBlk">
+		<div id="myCarousel" class="carousel slide">
+			<div class="carousel-inner">
+				<div class="item active">
+					<div class="container">
+						<a href="@Url.Action("Signup", "Account")">
+							<img style="width:100%" src="~/themes/images/carousel/1.png" alt="special offers" />
+						</a>
+
+						<div class="carousel-caption">
+							<h4>Second Thumbnail label</h4>
+							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="container">
+						<a href="@Url.Action("Signup", "Account")">
+							<img style="width:100%" src="~/themes/images/carousel/2.png" alt="special offers" />
+						</a>
+						<div class="carousel-caption">
+							<h4>Second Thumbnail label</h4>
+							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="container">
+
+						<a href="@Url.Action("Signup", "Account")">
+							<img style="width:100%" src="~/themes/images/carousel/3.png" alt="special offers" />
+						</a>
+
+						<div class="carousel-caption">
+							<h4>Second Thumbnail label</h4>
+							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+						</div>
+
+					</div>
+				</div>
+				<div class="item">
+					<div class="container">
+
+						<a href="@Url.Action("Signup", "Account")">
+							<img style="width:100%" src="~/themes/images/carousel/4.png" alt="special offers" />
+						</a>
+
+						<div class="carousel-caption">
+							<h4>Second Thumbnail label</h4>
+							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+						</div>
+
+					</div>
+				</div>
+				<div class="item">
+					<div class="container">
+						<a href="@Url.Action("Signup", "Account")">
+							<img style="width:100%" src="~/themes/images/carousel/5.png" alt="special offers" />
+						</a>
+						<div class="carousel-caption">
+							<h4>Second Thumbnail label</h4>
+							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="container">
+						<a href="@Url.Action("Signup", "Account")">
+							<img style="width:100%" src="~/themes/images/carousel/6.png" alt="special offers" />
+						</a>
+						<div class="carousel-caption">
+							<h4>Second Thumbnail label</h4>
+							<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+			<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+		</div>
+	</div>
 </div>
 

@@ -48,7 +48,7 @@
                 <img src="/image/img-01.png" alt="IMG">
             </div>
 
-            <form asp-action="Signup">
+            <form asp-action="Signup" method="post" enctype="multipart/form-data" style="margin-top:-30px">
                 <div asp-validation-summary="ModelOnly" class="text-danger" style="position:absolute; display:flex; margin-top:-70px"></div>
 
                 <span class="login100-form-title">
@@ -74,6 +74,11 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
                 <div class="form-group">
                     <input asp-for="Address" class="form-control input100" placeholder="Address" data-val="true" data-val-required="The Address field is required." />
+                </div>
+
+                <span asp-validation-for="AvatarFile" class="text-danger"></span>
+                <div class="form-group">
+                    <input asp-for="AvatarFile" class="form-control input100 validate-input" placeholder="AvatarFile" type="file" />
                 </div>
 
                 <span asp-validation-for="Birthday" class="text-danger"></span>

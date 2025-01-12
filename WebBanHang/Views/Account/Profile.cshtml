@@ -1,0 +1,87 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using WebBanHang.ModelViews
+@model ProfileVM
+
+<div class="container mt-4">
+    <!-- Profile Card Section -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <!-- Profile Avatar -->
+                    <img src="@(Model.Avatar != null ? $"data:image/png;base64,{Convert.ToBase64String(Model.Avatar)}" : "/images/default-avatar.png")"
+                         alt="Avatar"
+                         class="rounded-circle mb-3"
+                         style="width: 120px; height: 120px; object-fit: cover;" />
+
+                    <h5 class="card-title">@Model.FullName</h5>
+                    <p class="card-text"><strong>Email:</strong> @Model.Email</p>
+                    <p class="card-text"><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+                    <p class="card-text"><strong>Address:</strong> @Model.Address</p>
+                    <p class="card-text"><strong>Birthday:</strong> @Model.Birthday.ToString("yyyy-MM-dd")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Update Form -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Update Profile</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Profile" enctype="multipart/form-data" method="post">
+                        <!-- Full Name -->
+                        <div class="form-group mb-3">
+                            <label asp-for="FullName" class="form-label">Full Name</label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" type="email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="form-group mb-3">
+                            <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                            <input asp-for="PhoneNumber" class="form-control" type="tel" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Address" class="form-label">Address</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <!-- Birthday -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Birthday" class="form-label">Birthday</label>
+                            <input asp-for="Birthday" class="form-control" type="date" />
+                            <span asp-validation-for="Birthday" class="text-danger"></span>
+                        </div>
+
+                        <!-- Avatar -->
+                        <div class="form-group mb-4">
+                            <label asp-for="AvatarFile" class="form-label">Upload New Avatar</label>
+                            <input asp-for="AvatarFile" class="form-control" type="file" />
+                            <span asp-validation-for="AvatarFile" class="text-danger"></span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

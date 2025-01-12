@@ -1,0 +1,49 @@
+﻿@model List<WebBanHang.ViewModels.OrderSummaryVM>
+
+<h2>Your Orders</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No orders found.</p>
+}
+else
+{
+    @foreach (var order in Model)
+    {
+        <h3>
+            Order ID: @order.OrderId | Date: @order.OrderDate.ToString("yyyy-MM-dd") | Status: @order.OrderStatus
+        </h3>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (order.Items != null && order.Items.Any())
+                {
+                    @foreach (var item in order.Items)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C")</td>
+                            <td>@item.Total.ToString("C")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">No items for this order.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p><strong>Total Price:</strong> @order.TotalPrice.ToString("C")</p>
+        <hr />
+    }
+}

@@ -21,8 +21,6 @@ public partial class Order
 
     public bool Ship { get; set; }
 
-    public int StoreId { get; set; }
-
     public string? Note { get; set; }
 
     public virtual Customer Customer { get; set; } = null!;
