@@ -11,7 +11,5 @@ public partial class Store
 
     public string StoreAddress { get; set; } = null!;
 
-    public string? Thumb { get; set; }
-
     public virtual ICollection<Stock> Stocks { get; set; } = new List<Stock>();
 }

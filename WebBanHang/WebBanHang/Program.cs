@@ -6,13 +6,20 @@ using System.Text.Unicode;
 using WebBanHang.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-var stringConnectdb = builder.Configuration.GetConnectionString("dbNet");
-builder.Services.AddDbContext<DbNetContext>(options =>
-	options.UseSqlServer(stringConnectdb));
+
+// K?t n?i chu?i t? appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("dbNet4");
+builder.Services.AddDbContext<DbNet4Context>(options =>
+	options.UseSqlServer(connectionString));
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddNotyf(config => {
+	config.DurationInSeconds = 10;
+	config.IsDismissable = true;
+	config.Position = NotyfPosition.BottomRight;
+});
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 var app = builder.Build();
 

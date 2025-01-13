@@ -17,7 +17,7 @@ public partial class Order
 
     public DateOnly OrderDate { get; set; }
 
-    public string ShippingAddresses { get; set; } = null!;
+    public DateOnly? ReceivedDate { get; set; }
 
     public bool Ship { get; set; }
 
@@ -28,6 +28,8 @@ public partial class Order
     public virtual Customer Customer { get; set; } = null!;
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+    public virtual PaymentMethod PaymentMethod { get; set; } = null!;
 
     public virtual ICollection<Ship> Ships { get; set; } = new List<Ship>();
 }

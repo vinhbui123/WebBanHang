@@ -9,5 +9,5 @@ public partial class PaymentMethod
 
     public string PaymentMethodName { get; set; } = null!;
 
-    public string? Thumb { get; set; }
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

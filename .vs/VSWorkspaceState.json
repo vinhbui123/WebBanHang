@@ -1,16 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\WebBanHang",
-    "\\WebBanHang\\WebBanHang",
-    "\\WebBanHang\\WebBanHang\\Areas",
-    "\\WebBanHang\\WebBanHang\\Areas\\admin",
-    "\\WebBanHang\\WebBanHang\\Areas\\admin\\Controllers",
-    "\\WebBanHang\\WebBanHang\\Areas\\admin\\Views",
-    "\\WebBanHang\\WebBanHang\\wwwroot",
-    "\\WebBanHang\\WebBanHang\\wwwroot\\Adminassets",
-    "\\WebBanHang\\WebBanHang\\wwwroot\\Adminassets\\js"
+    ""
   ],
-  "SelectedNode": "\\WebBanHang\\WebBanHang\\Areas",
+  "SelectedNode": "\\WebBanHang.sln",
   "PreviewInSolutionExplorer": false
 }
