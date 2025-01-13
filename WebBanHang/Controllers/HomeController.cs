@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Drawing.Printing;
 using WebBanHang.Model;
+using WebBanHang.ModelViews;
 using X.PagedList;
 
 namespace WebBanHang.Controllers
@@ -21,19 +22,22 @@ namespace WebBanHang.Controllers
 		}
 
 
-		public IActionResult Index(int? page)
-		{
+        public IActionResult Index(int? page)
+        {
+            int pageSize = 12;
+            var pageNumber = page == null || page < 1 ? 1 : page.Value;
 
-			int pageSize = 12;
-			var pageNumber = page == null || page < 1  ? 1 : page.Value;
-			var productList = _db.Products.AsNoTracking().OrderBy(x => x.ProductName);
+            // Fetch the product list from the database
+            var productList = _db.Products.AsNoTracking().OrderBy(x => x.ProductName);
+            // Create paginated list
+            PagedList<Product> list = new PagedList<Product>(productList, pageNumber, pageSize);
+            // Return the paginated product list and cart data
+            return View(list);
+        }
 
-			PagedList<Product> list = new PagedList<Product>(productList, pageNumber, pageSize);
-			return View(list);
-		}
 
 
-		[AllowAnonymous]
+        [AllowAnonymous]
 		[HttpPost]
 		[Route("FindProduct", Name = "find")]
 		public ActionResult FindProduct(string searchQuery, int? page)

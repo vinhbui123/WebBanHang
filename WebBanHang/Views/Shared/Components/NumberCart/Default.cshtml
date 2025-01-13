@@ -1,0 +1,18 @@
+﻿@model List<WebBanHang.ModelViews.CartItem>
+@if(Model != null && Model.Count() > 0)
+{
+@if (User.Identity.IsAuthenticated)
+{
+	<a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-mini btn-primary">
+		<i class="icon-shopping-cart icon-white"></i>
+		Your Cart (<span id="cart-count">@Model.Count()</span>)
+	</a>
+	}
+}
+else
+{
+	<a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-mini btn-primary">
+		<i class="icon-shopping-cart icon-white"></i>
+		Your Cart (<span id="cart-count">0</span>)
+	</a>
+}

@@ -1,23 +1,16 @@
-﻿using Humanizer;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using System.ComponentModel;
-using System.Drawing.Drawing2D;
-using System.Numerics;
 using System.Security.Claims;
 using WebBanHang.Extension;
 using WebBanHang.Helpper;
-using WebBanHang.Migrations;
 using WebBanHang.Model;
 using WebBanHang.ModelViews;
-using WebBanHang.ViewModels;
 namespace WebBanHang.Controllers
 {
-    [Authorize]
+	[Authorize]
     public class AccountController : Controller
     {
 
@@ -381,7 +374,8 @@ namespace WebBanHang.Controllers
                 // Sign out the user from the authentication scheme
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-                // Remove the "CustomerId" from the session
+                // Remove the "CustomerId" from the session and clear session data
+                HttpContext.Session.Clear();
                 HttpContext.Session.Remove("CustomerId");
 
                 // Redirect to the "Home" page
@@ -394,50 +388,5 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-
-		[HttpGet]
-		[AllowAnonymous]
-		[Route("Order", Name = "Order")]
-		public IActionResult Order()
-		{
-			var customerId = HttpContext.Session.GetString("CustomerId");
-
-			if (string.IsNullOrEmpty(customerId))
-			{
-				return RedirectToAction("Login", "Account");
-			}
-
-			if (!int.TryParse(customerId, out var parsedCustomerId))
-			{
-				// Optional: Add logging or error handling for invalid session value
-				return RedirectToAction("Login", "Account");
-			}
-
-			var orders = _db.Orders
-				.Include(o => o.OrderItems)
-				.ThenInclude(oi => oi.Product)
-				.AsNoTracking()
-				.Where(o => o.CustomerId == parsedCustomerId)
-				.ToList();
-
-			var orderSummaries = orders.Select(order => new OrderSummaryVM
-			{
-				OrderId = order.OrderId,
-				OrderDate = order.OrderDate.ToDateTime(TimeOnly.MinValue),
-				TotalPrice = order.TotalPrice,
-				OrderStatus = order.OrderStatus,
-				Items = order.OrderItems.Select(oi => new OrderItemVM
-				{
-					ProductName = oi.Product.ProductName,
-					Quantity = oi.Quantity,
-					Price = oi.ListPrice,
-					Total = oi.Quantity * oi.ListPrice
-				}).ToList()
-			}).ToList();
-
-			return View(orderSummaries);
-		}
-
-
 	}
 }

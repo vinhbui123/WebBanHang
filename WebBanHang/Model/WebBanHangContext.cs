@@ -294,5 +294,10 @@ public partial class WebBanHangContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
+    internal async Task GetCartItemsAsync(string? name)
+    {
+        throw new NotImplementedException();
+    }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

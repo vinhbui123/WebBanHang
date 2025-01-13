@@ -7,13 +7,7 @@
             <div class="span6">Welcome! <strong>User</strong></div>
             <div class="span6" style="margin-left:20px">
                 <div class="pull-right">
-					@if (User.Identity.IsAuthenticated)
-					{
-						<a href="@Url.Action("Order", "Account")" class="btn btn-mini btn-primary">
-							<i class="icon-shopping-cart icon-white"></i> your cart
-						</a>
-					}
-
+				@await Component.InvokeAsync("NumberCart")
                 </div>
             </div>
         </div>
@@ -150,3 +144,18 @@
 	</div>
 </div>
 
+<script>
+	$(document).ready(function () {
+		$.ajax({
+			url: '@Url.Action("GetCartItemCount", "ShoppingCart")',
+			type: 'GET',
+			success: function (data) {
+				$('#cart-count').text(data.count);
+			},
+			error: function () {
+				console.error("Failed to load cart item count.");
+			}
+		});
+	});
+
+</script>
