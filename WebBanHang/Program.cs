@@ -8,8 +8,40 @@ using WebBanHang.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure services
-builder.Services.ConfigureServices(builder.Configuration);
+// Connect to the database
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<WebBanHangContext>(options => options.UseSqlServer(connectionString));
+
+// Set up HTML encoder to allow all unicode ranges
+builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
+
+// Add services to the container
+builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+// Add toast notification configuration
+builder.Services.AddNotyf(config =>
+{
+    config.DurationInSeconds = 10;
+    config.IsDismissable = true;
+    config.Position = NotyfPosition.BottomRight;
+});
+
+// Add session support
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout duration
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Required for GDPR compliance
+});
+
+// Add authentication and cookie configuration
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = new PathString("/Home/Index");
+    });
 
 // Build the app
 var app = builder.Build();
@@ -46,45 +78,3 @@ app.UseEndpoints(endpoints =>
 
 // Run the application
 app.Run();
-
-// Extension method to configure services
-public static class ServiceExtensions
-{
-    public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
-    {
-        // Connect to the database
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<WebBanHangContext>(options => options.UseSqlServer(connectionString));
-
-        // Set up HTML encoder to allow all unicode ranges
-        services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
-
-        // Add services to the container
-        services.AddControllersWithViews();
-        services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
-        // Add toast notification configuration
-        services.AddNotyf(config =>
-        {
-            config.DurationInSeconds = 10;
-            config.IsDismissable = true;
-            config.Position = NotyfPosition.BottomRight;
-        });
-
-        // Add session support
-        services.AddSession(options =>
-        {
-            options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout duration
-            options.Cookie.HttpOnly = true;
-            options.Cookie.IsEssential = true; // Required for GDPR compliance
-        });
-
-        // Add authentication and cookie configuration
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-            {
-                options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = new PathString("/Home/Index");
-            });
-    }
-}

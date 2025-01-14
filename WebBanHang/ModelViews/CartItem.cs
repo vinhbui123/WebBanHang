@@ -8,5 +8,9 @@ namespace WebBanHang.ModelViews
         public int amount { get; set; }
         public decimal TotalPrice => amount * (product.PriceDiscounts.HasValue ? product.PriceDiscounts.Value : product.Price);
 
+        public static implicit operator CartItem?(List<CartItem>? v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

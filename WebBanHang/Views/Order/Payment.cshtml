@@ -1,0 +1,169 @@
+﻿@model WebBanHang.ModelViews.OrderVm
+
+<!-- User payment information -->
+<div id="user" style="margin-left:20px">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Thông tin đơn hàng</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="CreateOrder" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-md-6">
+                            <!-- Full Name -->
+                            <div class="form-group mb-3">
+                                <label asp-for="UserInformation.FullName" class="form-label">Full Name</label>
+                                <input asp-for="UserInformation.FullName" class="form-control" />
+                                <span asp-validation-for="UserInformation.FullName" class="text-danger"></span>
+                            </div>
+                            <!-- Phone Number -->
+                            <div class="form-group mb-3">
+                                <label asp-for="UserInformation.PhoneNumber" class="form-label">Phone Number</label>
+                                <input asp-for="UserInformation.PhoneNumber" class="form-control" type="tel" />
+                                <span asp-validation-for="UserInformation.PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="col-md-6">
+                            <!-- Address -->
+                            <div class="form-group mb-3">
+                                <label asp-for="UserInformation.Address" class="form-label">Address</label>
+                                <input asp-for="UserInformation.Address" class="form-control" />
+                                <span asp-validation-for="UserInformation.Address" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-left:300px;margin-top:-260px">
+                    <!-- Payment information -->
+                    <h4 style="margin-top:20px;">Tổng tiền: @Model.CartItems.Sum(x => x.TotalPrice).ToString("#,##0") $</h4>
+
+                    <!-- Dropdown menu for payment options -->
+                    <div style="margin-top:20px;">
+                        <label for="payment-method">Choose a payment method:</label>
+                        <select id="payment-method" name="PaymentMethod" class="form-control" style="width:250px;">
+                            <option value="visa">Thanh toán với Visa Card</option>
+                            <option value="card">Thanh toán với tiền mặt</option>
+                            <option value="bitcoin">Thanh toán với atm</option>
+                        </select>
+                    </div>
+
+                    <table class="table" style="width:100%; margin-top:20px;">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Amount</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CartItems)
+                            {
+                                <tr>
+                                    <td>@item.product.ProductName</td>
+                                    <td>@(item.product.PriceDiscounts.HasValue ? item.product.PriceDiscounts.Value.ToString("C") : item.product.Price)</td>
+                                    <td>@item.amount</td>
+                                    <td>@(item.TotalPrice.ToString("C"))</td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="updateCart(@item.product.ProductId, @item.amount + 1)">+</button>
+                                        <button class="btn btn-warning btn-sm" onclick="updateCart(@item.product.ProductId, @item.amount - 1)">-</button>
+                                        <button class="btn btn-danger btn-sm" onclick="removeFromCart(@item.product.ProductId)">Remove</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <!-- Confirm Order Button -->
+                    <button type="submit" class="btn btn-primary">Confirm Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle the dropdown selection (optional) -->
+<script>
+    document.getElementById('payment-method').addEventListener('change', function () {
+        var selectedPaymentMethod = this.value;
+        console.log("Selected payment method: " + selectedPaymentMethod);
+        // You can perform further actions based on the selected payment method here
+    });
+</script>
+
+</script>
+
+
+<script>
+    function updateCart(productId, amount) {
+        $.ajax({
+            url: '/ShoppingCart/UpdateCart',
+            type: 'POST',
+            data: { productId: productId, amount: amount },
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+                    location.reload(); // Reload the page to reflect changes
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+                alert('An error occurred while updating the cart.');
+            }
+        });
+    }
+
+    function removeFromCart(productId) {
+        $.ajax({
+            url: '@Url.Action("RemoveFromCart", "ShoppingCart")',
+            type: 'POST',
+            data: { productId: productId },
+            success: function (response) {
+                if (response.success) {
+                    // Optionally, update the UI after successful removal (e.g., remove the item from the list)
+                    alert(response.message);
+                    location.reload();  // Or use AJAX to update the cart without reloading
+                } else {
+                    alert(response.message);  // Show error message if removal fails
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('An error occurred: ' + error);
+            }
+        });
+    }
+
+        $("form").submit(function(event) {
+            event.preventDefault();  // Prevent the default form submission
+
+        var formData = $(this).serialize();  // Serialize the form data
+
+        $.ajax({
+            url: '@Url.Action("CreateOrder", "Order")',  // Replace with your controller action's URL
+        type: 'POST',
+        data: formData,
+        success: function(response) {
+                    if (response.success) {
+            // Optionally, show a success message
+            alert(response.message);
+        // Redirect or perform other actions
+        window.location.href = '@Url.Action("Index", "Home")';  // Redirect to a confirmation page
+                    } else {
+            // Show an error message
+            alert(response.message);
+                    }
+                },
+        error: function(xhr, status, error) {
+            alert('An error occurred: ' + error);
+                }
+            });
+        });
+
+</script>
+

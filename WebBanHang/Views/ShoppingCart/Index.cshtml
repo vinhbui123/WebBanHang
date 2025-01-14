@@ -4,8 +4,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- Adding hover and active states for a more interactive button -->
+<style>
+    button:hover {
+        background-color: #444;
+        transform: scale(1.05);
+    }
+
+    button:active {
+        background-color: #333;
+        transform: scale(1);
+    }
+</style>
+
 <h2>Your Shopping Cart</h2>
  @if (Model != null && Model.Count() > 0){
+<h4>Total money: @Model.Sum(x => x.TotalPrice).ToString("#,##0") $</h4>
 <table class="table">
     <thead>
         <tr>
@@ -21,7 +35,7 @@
         {
             <tr>
                 <td>@item.product.ProductName</td>
-                <td>@(item.product.PriceDiscounts.HasValue ? item.product.PriceDiscounts.Value.ToString("C") : "No Discount")</td>
+                <td>@(item.product.PriceDiscounts.HasValue ? item.product.PriceDiscounts.Value.ToString("C") : item.product.Price)<td>
                 <td>@item.amount</td>
                 <td>@(item.TotalPrice.ToString("C"))</td>
                 <td>
@@ -34,9 +48,12 @@
                 </td>
             </tr>
         }
-        <h4>Total money: @Model.Sum(x => x.TotalPrice).ToString("#,##0") $</h4>
     </tbody>
 </table>
+    <button onclick="window.location.href='@Url.Action("Payment", "Order")';" style="background-color: black; color: azure; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;margin-left:20px">
+        Thanh Toán
+    </button>
+
  }
 else
 {

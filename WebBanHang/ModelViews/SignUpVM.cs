@@ -49,11 +49,5 @@ namespace WebBanHang.ModelViews
         [Required(ErrorMessage = "Input your address")]
         [MaxLength(250, ErrorMessage = "Address cannot exceed 250 characters")]
         public string Address { get; set; }
-
-        // Avatar image upload property
-        [Display(Name = "Avatar")]
-        [Required(ErrorMessage = "Input your avatar image")]
-        [DataType(DataType.Upload)]
-        public IFormFile AvatarFile { get; set; }
     }
 }

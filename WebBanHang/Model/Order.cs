@@ -13,21 +13,19 @@ public partial class Order
 
     public string OrderStatus { get; set; } = null!;
 
-    public int PaymentMethodId { get; set; }
+    public string PaymentMethodName { get; set; } = null!;
 
-    public DateOnly OrderDate { get; set; }
+    public DateTime OrderDate { get; set; }
 
     public DateOnly? ReceivedDate { get; set; }
 
     public bool Ship { get; set; }
 
+    public int StoreId { get; set; }
+
     public string? Note { get; set; }
 
     public virtual Customer Customer { get; set; } = null!;
 
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-
-    public virtual PaymentMethod PaymentMethod { get; set; } = null!;
-
-    public virtual ICollection<Ship> Ships { get; set; } = new List<Ship>();
+    public virtual OrderItem? OrderItem { get; set; }
 }

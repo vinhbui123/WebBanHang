@@ -7,11 +7,11 @@ public partial class Product
 {
     public int ProductId { get; set; }
 
+    public string Type { get; set; } = null!;
+
     public int UnitInStock { get; set; }
 
     public byte[]? Thumb { get; set; }
-
-    public string Type { get; set; } = null!;
 
     public string ProductName { get; set; } = null!;
 
@@ -23,7 +23,7 @@ public partial class Product
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-    public virtual Stock? Stock { get; set; }
+    public virtual ProductDetail? ProductDetail { get; set; }
 
-    public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();
+    public virtual Stock? Stock { get; set; }
 }

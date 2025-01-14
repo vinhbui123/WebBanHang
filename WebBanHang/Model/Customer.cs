@@ -23,11 +23,7 @@ public partial class Customer
 
     public string? Salt { get; set; }
 
-    public DateTime? LastLogin { get; set; }
-
     public bool Active { get; set; }
-
-    public byte[]? Avatar { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using WebBanHang.Model;
 using WebBanHang.ModelViews;
 namespace WebBanHang.Controllers
 {
-	[Authorize]
+    [Authorize]
     public class AccountController : Controller
     {
 
@@ -21,68 +22,14 @@ namespace WebBanHang.Controllers
             _db = db;
         }
 
-        public IActionResult ValidateName(string fullName)
-        {
-            try
-            {
-                var Name = _db.Customers.SingleOrDefault(x => x.FullName.ToLower() == fullName.ToLower());
-                if (Name != null)
-                    return Json(data: "Name" + Name + "was used : ");
-
-                return Json(data: "Name : " + Name + " can use");
-            }
-            catch (Exception ex)
-            {
-                // Log the exception for debugging
-                ViewBag.ErrorMessage = ex.Message;
-                return Json(data: "error");
-            }
-        }
-
-
-        public IActionResult ValidatePhone(string PhoneNumber)
-        {
-            try
-            {
-                var phoneNumber = _db.Customers.SingleOrDefault(x => x.Phone.ToLower() == PhoneNumber.ToLower());
-                if (phoneNumber != null)
-                    return Json(data: "Số điện thoại : " + PhoneNumber + " đã được sử dụng");
-
-                return Json(data: "Số điện thoại : " + PhoneNumber + " có thể sử dụng");
-            }
-            catch (Exception ex)
-            {
-                // Log the exception for debugging
-                return Json(data: "Đã xảy ra lỗi, vui lòng thử lại sau.");
-            }
-        }
-
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ValidateEmail(string Email)
-        {
-            try
-            {
-                var khachhang = _db.Customers.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
-                if (khachhang == null)
-                    return Json(data: "Email : " + Email + " đã được sử dụng");
-                return Json(data: true);
-            }
-            catch
-            {
-                return Json(data: true);
-            }
-        }
-
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-		//GET requests, which are typically used to retrieve data from the server.
-		[AllowAnonymous]
+        //GET requests, which are typically used to retrieve data from the server.
+        [AllowAnonymous]
         [Microsoft.AspNetCore.Mvc.Route("Sign up", Name = "Signup")]
         public IActionResult Signup()
         {
@@ -90,18 +37,17 @@ namespace WebBanHang.Controllers
         }
 
         [HttpPost]
-		//requests, which are typically used to submit data to the server for processing
-		[AllowAnonymous]
+        //requests, which are typically used to submit data to the server for processing
+        [AllowAnonymous]
         [Microsoft.AspNetCore.Mvc.Route("Sign up", Name = "Sign up")]
         public async Task<IActionResult> Signup(SignUpVM account)
-            //Asyn :Indicates that the method supports asynchronous operations.
-            //Improves performance by freeing up the thread while waiting for I/O-bound operations
-            //(like database queries, file I/O, or API calls) to complete.
+        //Asyn :Indicates that the method supports asynchronous operations.
+        //Improves performance by freeing up the thread while waiting for I/O-bound operations
+        //(like database queries, file I/O, or API calls) to complete.
         {
             try
             {
-                if (ModelState.IsValid)
-                {
+          
                     // Check if a customer with the same email or name already exists
                     //AnyAsync stop when find matching
                     bool customerExists = await _db.Customers.AnyAsync(c =>
@@ -115,17 +61,6 @@ namespace WebBanHang.Controllers
                     }
 
                     // Create a new customer if no duplicate is found
-                    byte[] avatarBytes = null;
-                    if (account.AvatarFile != null && account.AvatarFile.Length > 0)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await account.AvatarFile.CopyToAsync(memoryStream);
-                            avatarBytes = memoryStream.ToArray(); // Store image as byte array
-                        }
-                    }
-
-                    // Create a new customer if no duplicate is found
                     try
                     {
                         string salt = Utilities.GetRandomKey();
@@ -134,7 +69,6 @@ namespace WebBanHang.Controllers
                             FullName = account.FullName,
                             Phone = account.PhoneNumber.Trim().ToLower(),
                             Address = account.Address.Trim().ToLower(),
-                            Avatar = avatarBytes, // Store the image as byte array
                             Birthday = account.Birthday,
                             Email = account.Email.Trim().ToLower(),
                             Password = (account.Password.Trim().ToLower() + salt.Trim()).ToMD5(),
@@ -151,12 +85,13 @@ namespace WebBanHang.Controllers
                         return RedirectToAction("Login", "Account");
                         //return RedirectToAction("My account", "Home");
                     }
-                    catch (Exception)
-                    {
-                        return View(account);
-                    }
+                 catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "An error occurred while updating your profile. Please try again.");
+                    return View(account);
                 }
-                return View(account);
+
+
             }
             catch
             {
@@ -205,8 +140,7 @@ namespace WebBanHang.Controllers
                 Email = customer.Email,
                 PhoneNumber = customer.Phone,
                 Address = customer.Address,
-                Birthday = (DateTime)customer.Birthday,
-                Avatar = customer.Avatar
+                Birthday = (DateTime)customer.Birthday
             };
 
             // Pass the ViewModel to the view
@@ -235,17 +169,6 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Validate and handle avatar upload
-            byte[] avatarBytes = customer.Avatar; // Use existing avatar if no new one is uploaded
-            if (account.AvatarFile != null && account.AvatarFile.Length > 0)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await account.AvatarFile.CopyToAsync(memoryStream);
-                    avatarBytes = memoryStream.ToArray(); // Store uploaded image as byte array
-                }
-            }
-
             // Validate and handle birthday
             if (account.Birthday < new DateTime(1753, 1, 1) || account.Birthday > new DateTime(9999, 12, 31))
             {
@@ -259,7 +182,6 @@ namespace WebBanHang.Controllers
             customer.Phone = account.PhoneNumber;
             customer.Address = account.Address;
             customer.Birthday = account.Birthday;
-            customer.Avatar = avatarBytes;
 
             try
             {
@@ -388,5 +310,7 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-	}
+    }
+
+
 }

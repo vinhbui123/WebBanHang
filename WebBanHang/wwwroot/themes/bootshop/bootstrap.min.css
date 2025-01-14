@@ -4207,7 +4207,8 @@ button.btn, input[type="submit"].btn {
     }
 
 .pagination {
-    margin: 20px 0
+    margin: 20px 0;
+    margin-bottom: -100px
 }
 
     .pagination ul {

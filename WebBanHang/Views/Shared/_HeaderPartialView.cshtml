@@ -7,7 +7,10 @@
             <div class="span6">Welcome! <strong>User</strong></div>
             <div class="span6" style="margin-left:20px">
                 <div class="pull-right">
-				@await Component.InvokeAsync("NumberCart")
+					@if (User.Identity.IsAuthenticated)
+					{
+					@await Component.InvokeAsync("NumberCart")
+					}
                 </div>
             </div>
         </div>
@@ -157,5 +160,4 @@
 			}
 		});
 	});
-
 </script>
