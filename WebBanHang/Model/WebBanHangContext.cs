@@ -39,7 +39,7 @@ public partial class WebBanHangContext : DbContext
     {
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__8CB382B1E10F7D82");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__8CB382B1102D7198");
 
             entity.Property(e => e.CustomerId).HasColumnName("Customer_id");
             entity.Property(e => e.Address)
@@ -65,7 +65,7 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF845372B8F8BC");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1FF8453C27BB4C8");
 
             entity.Property(e => e.OrderId).HasColumnName("Order_id");
             entity.Property(e => e.CustomerId).HasColumnName("Customer_id");
@@ -97,27 +97,26 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<OrderItem>(entity =>
         {
-            entity.HasKey(e => e.OrderId);
+            entity.HasKey(e => e.OrderItemId).HasName("PK__Order_it__41E0DCE649204ADF");
 
             entity.ToTable("Order_items");
 
-            entity.Property(e => e.OrderId)
-                .ValueGeneratedNever()
-                .HasColumnName("Order_id");
+            entity.Property(e => e.OrderItemId).HasColumnName("Order_item_id");
             entity.Property(e => e.ListPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("List_price");
+            entity.Property(e => e.OrderId).HasColumnName("Order_id");
             entity.Property(e => e.ProductId).HasColumnName("Product_id");
 
-            entity.HasOne(d => d.Order).WithOne(p => p.OrderItem)
-                .HasForeignKey<OrderItem>(d => d.OrderId)
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("orders_order_items_fk");
+                .HasConstraintName("FK__Order_ite__Order__45F365D3");
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Products__9833FF92E72B1784");
+            entity.HasKey(e => e.ProductId).HasName("PK__Products__9833FF92A0E55C29");
 
             entity.Property(e => e.ProductId)
                 .ValueGeneratedNever()
@@ -140,7 +139,7 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<ProductDetail>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product___9833FF92AB9E6333");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product___9833FF928152B78A");
 
             entity.ToTable("Product_details");
 
@@ -170,7 +169,7 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<Ship>(entity =>
         {
-            entity.HasKey(e => e.ShipId).HasName("PK__Ship__58D18D03CD7A72AE");
+            entity.HasKey(e => e.ShipId).HasName("PK__Ship__58D18D0307D609C7");
 
             entity.ToTable("Ship");
 
@@ -187,11 +186,16 @@ public partial class WebBanHangContext : DbContext
             entity.Property(e => e.ShippingAddresses)
                 .HasMaxLength(200)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Shipper).WithMany(p => p.Ships)
+                .HasForeignKey(d => d.ShipperId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_ship_fk");
         });
 
         modelBuilder.Entity<Stock>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Stocks__9833FF92FD3D97EE");
+            entity.HasKey(e => e.ProductId).HasName("PK__Stocks__9833FF925447E57B");
 
             entity.Property(e => e.ProductId)
                 .ValueGeneratedNever()
@@ -211,7 +215,7 @@ public partial class WebBanHangContext : DbContext
 
         modelBuilder.Entity<Store>(entity =>
         {
-            entity.HasKey(e => e.StoreId).HasName("PK__Stores__A0F06719CAE4E485");
+            entity.HasKey(e => e.StoreId).HasName("PK__Stores__A0F067191F22C66B");
 
             entity.Property(e => e.StoreId)
                 .ValueGeneratedNever()

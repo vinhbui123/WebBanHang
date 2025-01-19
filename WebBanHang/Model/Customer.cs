@@ -11,6 +11,8 @@ public partial class Customer
 
     public DateTime? Birthday { get; set; }
 
+    public byte[]? Avatar { get; set; }
+
     public string? Address { get; set; }
 
     public string Email { get; set; } = null!;

@@ -1,0 +1,114 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<WebBanHang.Model.Order>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách đơn hàng " + CurrentPage;
+    Layout = "~/Areas/admin/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách đơn hàng: Page @CurrentPage</h1>
+
+    <div class="page-header d-flex justify-content-between mt-3">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a asp-controller="Home" asp-action="Index" asp-area="Admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+                <span class="breadcrumb-item active">Danh sách đơn hàng</span>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Danh sách đơn hàng
+        </div>
+        <div class="card-body">
+            <div class="row m-b-30">
+                <div class="col-lg-8">
+                    <div class="d-md-flex">
+                        <div class="m-b-10 m-r-15">
+                            <select class="custom-select" id="txtOrderStatus" name="txtOrderStatus" style="min-width: 200px;">
+                                <option selected>Chọn Trạng Thái</option>
+                                <option value="all">Tất cả</option>
+                                <option value="da dat hang">da dat hang </option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Khách hàng</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đặt</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td>@order.OrderId</td>
+                                    <td>@order.Customer.FullName.ToString()</td>
+                                    <td>@order.TotalPrice.ToString("C")</td>
+                                    <td>
+                                        <span class="badge @(order.OrderStatus == "Đã thanh toán" ? "badge-success" : "badge-warning")">@order.OrderStatus</span>
+                                    </td>
+                                    <td>@order.OrderDate.ToShortDateString()</td>
+                                    <td>
+                                        <a asp-area="admin" asp-controller="OrderAdmin" asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-sm btn-primary">
+                                            <i class="anticon anticon-eye"></i> Xem chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="OrderAdmin" asp-action="Index" />
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#txtOrderStatus").change(function () {
+                var orderStatus = $("#txtOrderStatus").val();
+                if (orderStatus === "all") {
+                    orderStatus = "";
+                }
+
+                $.ajax({
+                    url: '/Admin/OrderAdmin/Filter',
+                    type: "GET",
+                    data: {
+                        OrderStatus: orderStatus
+                    },
+                    success: function (results) {
+                        if (results.status === "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function () {
+                        alert('Lỗi khi lọc đơn hàng.');
+                    }
+                });
+            });
+        });
+    </script>
+}

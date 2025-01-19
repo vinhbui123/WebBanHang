@@ -7,7 +7,7 @@ public partial class Product
 {
     public int ProductId { get; set; }
 
-    public string Type { get; set; } = null!;
+    public string Type { get; set; } 
 
     public int UnitInStock { get; set; }
 
@@ -20,8 +20,6 @@ public partial class Product
     public decimal Price { get; set; }
 
     public decimal? PriceDiscounts { get; set; }
-
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
     public virtual ProductDetail? ProductDetail { get; set; }
 

@@ -1,0 +1,113 @@
+﻿@model WebBanHang.Model.OrderAdminViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/admin/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<h2>Chi tiết đơn hàng</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Thông tin đơn hàng</h3>
+        <dl class="row">
+            <dt class="col-sm-4">Mã đơn hàng:</dt>
+            <dd class="col-sm-8">@Model.Order.OrderId</dd>
+            <dt class="col-sm-4">Khách hàng:</dt>
+            <dd class="col-sm-8">@Model.Order.Customer.FullName.ToString()</dd>
+            <dt class="col-sm-4">Tổng tiền:</dt>
+            <dd class="col-sm-8">@Model.Order.TotalPrice.ToString("C")</dd>
+            <dt class="col-sm-4">Trạng thái:</dt>
+            <dd class="col-sm-8">
+                <input type="text" id="orderStatus" value="@Model.Order.OrderStatus" class="form-control" />
+                <button id="saveOrderStatus" class="btn btn-primary mt-2">Lưu</button>
+            </dd>
+            <dt class="col-sm-4">Ngày đặt:</dt>
+            <dd class="col-sm-8">@Model.Order.OrderDate.ToShortDateString()</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <h3>Thông tin giao hàng</h3>
+        <dl class="row">
+            <dt class="col-sm-4">Trạng thái:</dt>
+            <dd class="col-sm-8">
+                <input type="text" id="shipStatus" value="@Model.Ship.ShipStatus" class="form-control" />
+                <button id="saveShipStatus" class="btn btn-primary mt-2">Lưu</button>
+            </dd>
+            <dt class="col-sm-4">Địa chỉ:</dt>
+            <dd class="col-sm-8">@Model.Ship.ShippingAddresses</dd>
+            <dt class="col-sm-4">Ngày giao dự kiến:</dt>
+            <dd class="col-sm-8">@Model.Ship.ExpectedDeliveryDate.ToShortDateString()</dd>
+        </dl>
+    </div>
+</div>
+
+<h3>Sản phẩm</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                
+                <td>@item.Quantity</td>
+                <td>@item.ListPrice.ToString("C")</td>
+                <td>@((item.Quantity * item.ListPrice).ToString("C"))</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Thông tin thanh toán</h3>
+<div>
+    <label>Phương thức:</label>
+    <input value="@Model.Order.PaymentMethodName" readonly class="form-control" />
+</div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#saveOrderStatus').click(function () {
+                var orderId = $('#orderId').val();
+                var orderStatus = $('#orderStatus').val();
+                $.ajax({
+                    url: '@Url.Action("EditOrderStatus", "OrderAdmin")',
+                    type: 'POST',
+                    data: { orderId: orderId, orderStatus: orderStatus },
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Order status updated successfully.');
+                        } else {
+                            alert('Failed to update order status.');
+                        }
+                    }
+                });
+            });
+
+            $('#saveShipStatus').click(function () {
+                var shipId = '@Model.Ship.ShipId';
+                var shipStatus = $('#shipStatus').val();
+                $.ajax({
+                    url: '@Url.Action("EditShipStatus", "OrderAdmin")',
+                    type: 'POST',
+                    data: { shipId: shipId, shipStatus: shipStatus },
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Ship status updated successfully.');
+                        } else {
+                            alert('Failed to update ship status.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -16,4 +16,6 @@ public partial class Ship
     public DateOnly ExpectedDeliveryDate { get; set; }
 
     public string ShipStatus { get; set; } = null!;
+
+    public virtual Order Shipper { get; set; } = null!;
 }
